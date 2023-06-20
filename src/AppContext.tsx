@@ -6,7 +6,6 @@ import {
   User,
   signInWithPopup,
 } from "firebase/auth";
-import { set } from "firebase/database";
 
 type AppContextProps =
   | "Default Value"
