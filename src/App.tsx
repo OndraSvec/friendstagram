@@ -4,11 +4,17 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
+import Login from "./components/Login";
+import { AppContextProvider } from "./AppContext";
 
 const router = createBrowserRouter(
-  createRoutesFromElements(<Route path="/" element={} />)
+  createRoutesFromElements(<Route path="/" element={<Login />} />)
 );
 
-const App = () => <RouterProvider router={router} />;
+const App = () => (
+  <AppContextProvider>
+    <RouterProvider router={router} />
+  </AppContextProvider>
+);
 
 export default App;
