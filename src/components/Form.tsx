@@ -31,20 +31,30 @@ const Form: React.FC<FormProps> = ({ buttonText, submitFunc }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-9/12 flex-col items-center gap-2"
+    >
       <input
         type="text"
         name="email"
+        placeholder="Email"
+        className=" border-1 w-full rounded-sm border border-gray-300 p-1 text-sm outline-gray-300"
         value={formData.email}
         onChange={handleChange}
       />
       <input
         type="password"
         name="password"
+        placeholder="Password"
+        className=" border-1 w-full rounded-sm border border-gray-300 p-1 text-sm outline-gray-300"
         value={formData.password}
         onChange={handleChange}
       />
-      <Button text={buttonText} />
+      <Button
+        text={buttonText}
+        className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white"
+      />
     </form>
   );
 };
