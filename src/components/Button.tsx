@@ -8,9 +8,14 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ icon, text, className, onClick }) => (
-  <button onClick={onClick} className={className}>
-    {icon}
-    {text}
+  <button
+    onClick={onClick}
+    className={`${className} flex items-center justify-center gap-1`}
+  >
+    <>
+      {icon}
+      {text}
+    </>
   </button>
 );
 
