@@ -13,7 +13,11 @@ const Login = () => {
   return (
     <Wrapper className="gap-10 p-10">
       <h1 className="font-brush text-3xl">Friendstagram</h1>
-      <Form buttonText="Log in" submitFunc={signInWithPassword} />
+      <Form
+        state={{ email: "", password: "" }}
+        buttonText="Log in"
+        submitFunc={signInWithPassword}
+      />
       <div className="flex w-full items-center">
         <div className="w-full border-b-2"></div>
         <p className="mx-4 font-medium text-gray-500">OR</p>

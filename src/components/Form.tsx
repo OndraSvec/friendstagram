@@ -1,9 +1,15 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, ReactNode, useState } from "react";
 import Button from "./Button";
 
 interface FormProps {
-  buttonText: string;
+  state: {
+    email: string;
+    password: string;
+    confirmPassword?: string;
+  };
   submitFunc: () => void;
+  buttonText: string;
+  children?: ReactNode;
 }
 
 interface FormData {
@@ -11,11 +17,19 @@ interface FormData {
   password: string;
 }
 
-const Form: React.FC<FormProps> = ({ buttonText, submitFunc }) => {
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
-  });
+interface FormDataExpanded {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+const Form: React.FC<FormProps> = ({
+  state,
+  children,
+  buttonText,
+  submitFunc,
+}) => {
+  const [formData, setFormData] = useState<FormData | FormDataExpanded>(state);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,6 +65,7 @@ const Form: React.FC<FormProps> = ({ buttonText, submitFunc }) => {
         value={formData.password}
         onChange={handleChange}
       />
+      {children}
       <Button
         text={buttonText}
         className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white"
