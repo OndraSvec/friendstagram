@@ -5,12 +5,13 @@ import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import { AiFillFacebook } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import Wrapper from "../components/Wrapper";
 
 const Login = () => {
   const { error, signInWithGoogle, signInWithFacebook, signInWithPassword } =
     useContext(AppContext);
   return (
-    <div className="flex flex-grow flex-col items-center gap-10 p-10">
+    <Wrapper className="gap-10 p-10">
       <h1 className="font-brush text-3xl">Friendstagram</h1>
       <Form buttonText="Log in" submitFunc={signInWithPassword} />
       <div className="flex w-full items-center">
@@ -39,7 +40,7 @@ const Login = () => {
         </Link>
       </div>
       {error && <p>Sorry, something went wrong: {error}</p>}
-    </div>
+    </Wrapper>
   );
 };
 
