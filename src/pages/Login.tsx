@@ -8,8 +8,13 @@ import { FcGoogle } from "react-icons/fc";
 import Wrapper from "../components/Wrapper";
 
 const Login = () => {
-  const { error, signInWithGoogle, signInWithFacebook, signInWithPassword } =
-    useContext(AppContext);
+  const {
+    user,
+    error,
+    signInWithGoogle,
+    signInWithFacebook,
+    signInWithPassword,
+  } = useContext(AppContext);
   return (
     <Wrapper className="gap-10 p-10">
       <h1 className="font-brush text-3xl">Friendstagram</h1>

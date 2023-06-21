@@ -7,7 +7,7 @@ interface FormProps {
     password: string;
     confirmPassword?: string;
   };
-  submitFunc: () => void;
+  submitFunc: (...args: string[]) => void;
   buttonText: string;
   signUpForm: boolean;
 }
@@ -33,7 +33,8 @@ const Form: React.FC<FormProps> = ({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    submitFunc();
+    const formDataVals = Object.values(formData);
+    submitFunc(...formDataVals);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
