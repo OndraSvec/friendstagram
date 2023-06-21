@@ -5,6 +5,8 @@ import {
   FacebookAuthProvider,
   User,
   signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 type AppContextProps =
@@ -14,6 +16,8 @@ type AppContextProps =
       error: null | string;
       signInWithGoogle: () => void;
       signInWithFacebook: () => void;
+      signUpWithPassword: (email: string, password: string) => void;
+      signInWithPassword: (email: string, password: string) => void;
       signOut: () => void;
     };
 
@@ -47,13 +51,39 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
       .catch((error) => setError(error.message));
   };
 
+  const signUpWithPassword = (email: string, password: string) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        setUser(result.user);
+        setError(null);
+      })
+      .catch((error) => setError(error.message));
+  };
+
+  const signInWithPassword = (email: string, password: string) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        setUser(result.user);
+        setError(null);
+      })
+      .catch((error) => setError(error.message));
+  };
+
   const signOut = () => {
     auth.signOut();
     setUser(null);
   };
   return (
     <AppContext.Provider
-      value={{ user, error, signInWithGoogle, signInWithFacebook, signOut }}
+      value={{
+        user,
+        error,
+        signInWithGoogle,
+        signInWithFacebook,
+        signUpWithPassword,
+        signInWithPassword,
+        signOut,
+      }}
     >
       {children}
     </AppContext.Provider>

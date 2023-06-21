@@ -4,7 +4,7 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import Login from "./components/Login";
+import Login from "./pages/Login";
 import { AppContextProvider } from "./AppContext";
 
 const router = createBrowserRouter(
