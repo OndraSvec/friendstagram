@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, ReactNode, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "./Button";
 
 interface FormProps {
@@ -9,7 +9,7 @@ interface FormProps {
   };
   submitFunc: () => void;
   buttonText: string;
-  children?: ReactNode;
+  signUpForm: boolean;
 }
 
 interface FormData {
@@ -25,9 +25,9 @@ interface FormDataExpanded {
 
 const Form: React.FC<FormProps> = ({
   state,
-  children,
   buttonText,
   submitFunc,
+  signUpForm,
 }) => {
   const [formData, setFormData] = useState<FormData | FormDataExpanded>(state);
 
@@ -65,7 +65,16 @@ const Form: React.FC<FormProps> = ({
         value={formData.password}
         onChange={handleChange}
       />
-      {children}
+      {signUpForm && (
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm password"
+          className=" border-1 w-full rounded-sm border border-gray-300 p-1 text-sm text-gray-400 outline-gray-300"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+        />
+      )}
       <Button
         text={buttonText}
         className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white"

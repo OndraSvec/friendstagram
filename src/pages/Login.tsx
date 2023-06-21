@@ -17,6 +17,7 @@ const Login = () => {
         state={{ email: "", password: "" }}
         buttonText="Log in"
         submitFunc={signInWithPassword}
+        signUpForm={false}
       />
       <div className="flex w-full items-center">
         <div className="w-full border-b-2"></div>
