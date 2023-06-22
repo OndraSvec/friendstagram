@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent, useState, useRef } from "react";
+import { ChangeEvent, FormEvent, useState, useRef, useContext } from "react";
 import Button from "./Button";
+import { AppContext } from "../AppContext";
 
 interface FormProps {
   state: {
@@ -34,6 +35,7 @@ const Form: React.FC<FormProps> = ({
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const confirmPassRef = useRef<HTMLInputElement | null>(null);
+  const { loading } = useContext(AppContext);
 
   const checkFormValidity = () => {
     if (signUpForm) {
@@ -108,7 +110,7 @@ const Form: React.FC<FormProps> = ({
       <Button
         text={buttonText}
         className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white"
-        disabled={!formValid}
+        disabled={!formValid || loading}
       />
     </form>
   );
