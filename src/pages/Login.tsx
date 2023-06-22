@@ -8,8 +8,13 @@ import { FcGoogle } from "react-icons/fc";
 import Wrapper from "../components/Wrapper";
 
 const Login = () => {
-  const { error, signInWithGoogle, signInWithFacebook, signInWithPassword } =
-    useContext(AppContext);
+  const {
+    error,
+    loading,
+    signInWithGoogle,
+    signInWithFacebook,
+    signInWithPassword,
+  } = useContext(AppContext);
   return (
     <Wrapper className="gap-10 p-10">
       <h1 className="font-brush text-3xl">Friendstagram</h1>
@@ -29,12 +34,14 @@ const Login = () => {
           icon={<AiFillFacebook className="text-xl" />}
           text="Log in with Facebook"
           onClick={signInWithFacebook}
+          disabled={loading}
           className="w-full p-1 text-sm font-medium text-blue-900"
         />
         <Button
           icon={<FcGoogle className="text-xl" />}
           text="Log in with Google"
           onClick={signInWithGoogle}
+          disabled={loading}
           className="w-full p-1 text-sm font-medium text-rose-700"
         />
       </div>

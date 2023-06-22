@@ -109,7 +109,7 @@ const Form: React.FC<FormProps> = ({
       )}
       <Button
         text={buttonText}
-        className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white"
+        className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white disabled:bg-gray-300"
         disabled={!formValid || loading}
       />
     </form>
