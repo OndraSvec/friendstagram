@@ -39,13 +39,13 @@ const Form: React.FC<FormProps> = ({
     if (signUpForm) {
       const invalid =
         !emailRef.current?.value ||
-        !passwordRef.current.value ||
-        !confirmPassRef.current.value ||
+        !passwordRef.current?.value ||
+        !confirmPassRef.current?.value ||
         passwordRef.current.value !== confirmPassRef.current.value;
       if (invalid) setFormValid(false);
       else setFormValid(true);
     } else {
-      const invalid = !emailRef.current?.value || !passwordRef.current.value;
+      const invalid = !emailRef.current?.value || !passwordRef.current?.value;
       if (invalid) setFormValid(false);
       else setFormValid(true);
     }
