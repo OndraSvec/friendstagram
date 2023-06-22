@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { AiFillFacebook } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import Wrapper from "../components/Wrapper";
+import Error from "../components/Error";
 
 const Login = () => {
   const {
@@ -18,6 +19,7 @@ const Login = () => {
   return (
     <Wrapper className="gap-10 p-10">
       <h1 className="font-brush text-3xl">Friendstagram</h1>
+      {error && <Error />}
       <Form
         state={{ email: "", password: "" }}
         buttonText="Log in"
@@ -51,7 +53,6 @@ const Login = () => {
           Sign Up
         </Link>
       </div>
-      {error && <p>Sorry, something went wrong: {error}</p>}
     </Wrapper>
   );
 };

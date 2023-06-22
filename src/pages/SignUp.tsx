@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import Form from "../components/Form";
+import Error from "../components/Error";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
@@ -14,7 +15,7 @@ interface SignUpProps {
 }
 
 const SignUp: React.FC<SignUpProps> = ({ initialState }) => {
-  const { signUpWithPassword } = useContext(AppContext);
+  const { error, signUpWithPassword } = useContext(AppContext);
   return (
     <Wrapper>
       <div className="grid w-full  grid-cols-3 items-center border-b border-solid border-gray-300 p-2">
@@ -25,6 +26,7 @@ const SignUp: React.FC<SignUpProps> = ({ initialState }) => {
         <div></div>
       </div>
       <Wrapper className="w-full justify-center p-10">
+        {error && <Error />}
         <Form
           state={initialState}
           buttonText="Create Account"

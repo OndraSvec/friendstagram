@@ -41,7 +41,15 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
         setUser(result.user);
         setError(null);
       })
-      .catch((error) => setError(error.message))
+      .catch((error) => {
+        const errorMsg = error.message
+          .split("auth/")[1]
+          .split(")")[0]
+          .replace(/-/g, " ");
+        const capitalizedErrMsg =
+          errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
+        setError(capitalizedErrMsg);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -53,7 +61,15 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
         setUser(result.user);
         setError(null);
       })
-      .catch((error) => setError(error.message))
+      .catch((error) => {
+        const errorMsg = error.message
+          .split("auth/")[1]
+          .split(")")[0]
+          .replace(/-/g, " ");
+        const capitalizedErrMsg =
+          errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
+        setError(capitalizedErrMsg);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -64,7 +80,15 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
         setUser(result.user);
         setError(null);
       })
-      .catch((error) => setError(error.message))
+      .catch((error) => {
+        const errorMsg = error.message
+          .split("auth/")[1]
+          .split(")")[0]
+          .replace(/-/g, " ");
+        const capitalizedErrMsg =
+          errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
+        setError(capitalizedErrMsg);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -75,7 +99,15 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
         setUser(result.user);
         setError(null);
       })
-      .catch((error) => setError(error.message))
+      .catch((error) => {
+        const errorMsg = error.message
+          .split("auth/")[1]
+          .split(")")[0]
+          .replace(/-/g, " ");
+        const capitalizedErrMsg =
+          errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
+        setError(capitalizedErrMsg);
+      })
       .finally(() => setLoading(false));
   };
 
