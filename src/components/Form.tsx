@@ -1,6 +1,14 @@
-import { ChangeEvent, FormEvent, useState, useRef, useContext } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from "react";
 import Button from "./Button";
 import { AppContext } from "../AppContext";
+import { useNavigate } from "react-router-dom";
 
 interface FormProps {
   state: {
@@ -35,7 +43,8 @@ const Form: React.FC<FormProps> = ({
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const confirmPassRef = useRef<HTMLInputElement | null>(null);
-  const { loading } = useContext(AppContext);
+  const { user, loading } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const checkFormValidity = () => {
     if (signUpForm) {
@@ -68,6 +77,13 @@ const Form: React.FC<FormProps> = ({
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (user) {
+      const unsub = navigate("/feed", { replace: true });
+      return () => unsub;
+    }
+  }, [user, navigate]);
 
   return (
     <form

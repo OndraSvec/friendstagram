@@ -27,7 +27,7 @@ const SignUp: React.FC<SignUpProps> = ({ initialState }) => {
         </h1>
         <div></div>
       </div>
-      <Wrapper className="w-full justify-center p-10">
+      <Wrapper className="w-full justify-center gap-2 p-10 md:gap-6">
         {error && <Error />}
         <Form
           state={initialState}
