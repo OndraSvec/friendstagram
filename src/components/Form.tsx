@@ -72,13 +72,13 @@ const Form: React.FC<FormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full flex-col items-center gap-2"
+      className="flex w-4/5 flex-col items-center gap-2 text-sm sm:gap-4 sm:text-lg md:gap-6 md:text-2xl lg:w-3/5"
     >
       <input
         type="email"
         name="email"
         placeholder="Email"
-        className=" border-1 w-full rounded-sm border border-gray-300 p-1 text-sm text-gray-400 outline-gray-300"
+        className=" border-1 w-full rounded-sm border border-gray-300 p-1  text-gray-400 outline-gray-300 sm:p-2 md:border-2 md:p-3"
         ref={emailRef}
         value={formData.email}
         onChange={handleChange}
@@ -89,7 +89,7 @@ const Form: React.FC<FormProps> = ({
         placeholder="Password"
         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
         title="At least 8 characters with one or more lowercase, one or more uppercase, one or more numbers and one or more special characters."
-        className=" border-1 w-full rounded-sm border border-gray-300 p-1 text-sm text-gray-400 outline-gray-300"
+        className=" border-1 w-full rounded-sm border border-gray-300 p-1  text-gray-400 outline-gray-300 sm:p-2 md:border-2 md:p-3"
         ref={passwordRef}
         value={formData.password}
         onChange={handleChange}
@@ -102,14 +102,14 @@ const Form: React.FC<FormProps> = ({
           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
           title="At least 8 characters with one or more lowercase, one or more uppercase, one or more numbers and one or more special characters."
           ref={confirmPassRef}
-          className=" border-1 w-full rounded-sm border border-gray-300 p-1 text-sm text-gray-400 outline-gray-300"
+          className=" border-1 w-full rounded-sm border border-gray-300 p-1 text-gray-400 outline-gray-300  sm:p-2 md:border-2 md:p-3"
           value={formData.confirmPassword}
           onChange={handleChange}
         />
       )}
       <Button
         text={buttonText}
-        className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white disabled:bg-gray-300"
+        className="w-full rounded-md bg-sky-400 p-1 font-medium text-white disabled:bg-gray-300 sm:p-2 md:p-3"
         disabled={!formValid || loading}
       />
     </form>

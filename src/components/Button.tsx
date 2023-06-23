@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => (
   <button
     onClick={onClick}
-    className={`${className} flex cursor-not-allowed items-center justify-center gap-1`}
+    className={`${className} flex items-center justify-center gap-1 disabled:cursor-not-allowed`}
     disabled={disabled}
   >
     <>

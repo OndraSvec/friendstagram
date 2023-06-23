@@ -17,8 +17,10 @@ const Login = () => {
     signInWithPassword,
   } = useContext(AppContext);
   return (
-    <Wrapper className="gap-10 p-10">
-      <h1 className="font-brush text-3xl">Friendstagram</h1>
+    <Wrapper className="justify-center gap-10 p-2 sm:gap-16">
+      <h1 className="font-brush text-3xl sm:text-4xl md:text-5xl">
+        Friendstagram
+      </h1>
       {error && <Error />}
       <Form
         state={{ email: "", password: "" }}
@@ -26,28 +28,30 @@ const Login = () => {
         submitFunc={signInWithPassword}
         signUpForm={false}
       />
-      <div className="flex w-full items-center">
+      <div className="flex w-4/5 items-center lg:w-3/5">
         <div className="w-full border-b-2"></div>
-        <p className="mx-4 font-medium text-gray-500">OR</p>
+        <p className="mx-4 text-sm font-medium text-gray-500 sm:text-lg md:text-2xl">
+          OR
+        </p>
         <div className="w-full border-b-2"></div>
       </div>
-      <div className="flex w-full flex-col gap-2">
+      <div className="flex w-4/5 flex-col gap-2 md:gap-4 lg:w-3/5">
         <Button
-          icon={<AiFillFacebook className="text-xl" />}
+          icon={<AiFillFacebook className="text-xl sm:text-3xl md:text-4xl" />}
           text="Log in with Facebook"
           onClick={signInWithFacebook}
           disabled={loading}
-          className="w-full p-1 text-sm font-medium text-blue-900"
+          className="w-full p-1 text-sm font-medium text-blue-900 sm:text-lg md:text-2xl"
         />
         <Button
-          icon={<FcGoogle className="text-xl" />}
+          icon={<FcGoogle className="text-xl sm:text-3xl md:text-4xl" />}
           text="Log in with Google"
           onClick={signInWithGoogle}
           disabled={loading}
-          className="w-full p-1 text-sm font-medium text-rose-700"
+          className="w-full p-1 text-sm font-medium text-rose-700 sm:text-lg md:text-2xl"
         />
       </div>
-      <div className="flex w-full justify-center gap-1 text-xs">
+      <div className="flex w-4/5 justify-center gap-1 text-xs sm:text-base md:text-lg lg:w-3/5">
         <p>Don't have an account?</p>
         <Link to="/signup" className="font-medium text-sky-400">
           Sign Up
