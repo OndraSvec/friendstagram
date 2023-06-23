@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { auth } from "./firebase/setup";
 import {
   GoogleAuthProvider,
@@ -115,6 +115,7 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     auth.signOut();
     setUser(null);
   };
+
   return (
     <AppContext.Provider
       value={{

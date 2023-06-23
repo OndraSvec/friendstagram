@@ -3,11 +3,11 @@ import { AppContext } from "../AppContext";
 import Button from "../components/Button";
 
 const Feed = () => {
-  const { user, signOut } = useContext(AppContext);
+  const { signOut } = useContext(AppContext);
   return (
     <>
       <h1>feed</h1>
-      <Button text="Log out" className="bg-red-100" onClick={signOut} />
+      <Button text="Log out" className="bg-red-100" onClick={() => signOut()} />
     </>
   );
 };
