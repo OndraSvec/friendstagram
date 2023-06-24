@@ -1,6 +1,7 @@
+import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
-import { BsChatLeft } from "react-icons/bs";
+import { BsChatLeft, BsChatLeftFill } from "react-icons/bs";
 import { RxExit } from "react-icons/rx";
 import Button from "./Button";
 
@@ -18,7 +19,15 @@ const Header = () => {
         <h1 className="text-center font-brush text-lg">Friendstagram</h1>
       </div>
       <div className="flex justify-end">
-        <Button icon={<BsChatLeft className="text-base text-black" />} />
+        <NavLink to="chat">
+          {({ isActive }) =>
+            isActive ? (
+              <BsChatLeftFill className="text-lg text-black" />
+            ) : (
+              <BsChatLeft className="text-lg text-black" />
+            )
+          }
+        </NavLink>
       </div>
     </header>
   );
