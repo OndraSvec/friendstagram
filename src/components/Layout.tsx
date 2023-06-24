@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
+import Header from "./Header";
 
 const Layout = () => (
   <div className="flex flex-grow flex-col">
-    <header>hi</header>
+    <Header />
     <main className="flex flex-grow flex-col items-center justify-center">
       <Outlet />
     </main>
