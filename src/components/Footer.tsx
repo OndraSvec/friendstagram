@@ -15,7 +15,7 @@ import Button from "./Button";
 
 const Footer = () => {
   return (
-    <footer className="grid grid-cols-5 border-t border-solid border-gray-300 px-3 py-2">
+    <footer className="grid grid-cols-5 items-center border-t border-solid border-gray-300 px-3 py-2">
       <div className="grid place-items-center">
         <Button icon={<HiHome className="text-lg text-black" />} />
       </div>
