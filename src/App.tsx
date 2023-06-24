@@ -9,6 +9,7 @@ import { AppContextProvider } from "./AppContext";
 import SignUp from "./pages/SignUp";
 import Feed from "./pages/Feed";
 import PrivateRoute from "./components/PrivateRoute";
+import Layout from "./components/Layout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,10 +27,12 @@ const router = createBrowserRouter(
         path="feed"
         element={
           <PrivateRoute>
-            <Feed />
+            <Layout />
           </PrivateRoute>
         }
-      />
+      >
+        <Route index element={<Feed />} />
+      </Route>
     </Route>
   )
 );
