@@ -52,14 +52,18 @@ const Post = () => {
       <form className="flex  w-4/5 flex-grow flex-col items-center gap-2 lg:w-3/5">
         <input
           type="file"
-          className="border-1 w-full rounded-s border border-gray-300 p-0 text-gray-400 outline-gray-300 file:rounded file:border-none file:bg-sky-400 file:p-1 file:font-medium file:text-white file:outline-none"
+          className="border-1 w-full rounded-s border border-gray-300 p-0 text-sm text-gray-400 outline-gray-300 file:rounded file:border-none file:bg-sky-400 file:p-1 file:font-medium file:text-white file:outline-none sm:text-base md:text-lg lg:text-xl"
           onChange={handleFileChange}
         />
-        {error && <p>{error}</p>}
+        {error && (
+          <div className="w-full bg-rose-500 p-2 text-justify text-sm font-medium text-white sm:text-lg md:text-2xl">
+            <p>{error}</p>
+          </div>
+        )}
         <textarea
           name="textarea"
           placeholder="Add description..."
-          className="border-1 w-full flex-grow  resize-none rounded-sm border border-gray-300 p-1 text-gray-400 outline-gray-300"
+          className="border-1 w-full flex-grow resize-none rounded-sm border border-gray-300 p-1 text-sm text-gray-400 outline-gray-300 sm:text-base md:text-lg lg:text-xl"
           onChange={handleDescriptionChange}
         />
         <Button
