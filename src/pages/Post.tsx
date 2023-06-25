@@ -4,7 +4,7 @@ import Button from "../components/Button";
 const Post = () => {
   return (
     <Wrapper className="w-full py-3">
-      <form className="flex  w-4/5 flex-grow flex-col items-center gap-2">
+      <form className="flex  w-4/5 flex-grow flex-col items-center gap-2 lg:w-3/5">
         <input
           type="file"
           name="file"
@@ -16,7 +16,7 @@ const Post = () => {
         />
         <Button
           text="Add post"
-          className="w-full rounded-md bg-sky-400 p-1 font-medium text-white disabled:bg-gray-300 sm:p-2 md:p-3"
+          className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white disabled:bg-gray-300 sm:p-2 sm:text-base md:p-3 md:text-lg lg:text-xl"
         />
       </form>
     </Wrapper>

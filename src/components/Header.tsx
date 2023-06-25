@@ -8,23 +8,27 @@ import Button from "./Button";
 const Header = () => {
   const { signOut } = useContext(AppContext);
   return (
-    <header className="grid grid-cols-3 items-center border-b border-solid border-gray-300 px-3 py-2">
+    <header className="grid grid-cols-3 items-center border-b border-solid border-gray-300 px-3 py-2 sm:px-5 md:px-8">
       <div>
         <Button
-          icon={<RxExit className="rotate-180 text-base text-black" />}
+          icon={
+            <RxExit className="rotate-180 text-base text-black sm:text-lg md:text-xl" />
+          }
           onClick={signOut}
         />
       </div>
       <div>
-        <h1 className="text-center font-brush text-lg">Friendstagram</h1>
+        <h1 className="text-center font-brush text-lg sm:text-xl md:text-2xl">
+          Friendstagram
+        </h1>
       </div>
       <div className="flex justify-end">
         <NavLink to="chat">
           {({ isActive }) =>
             isActive ? (
-              <BsChatLeftFill className="text-lg text-black" />
+              <BsChatLeftFill className="text-base text-black sm:text-lg md:text-xl" />
             ) : (
-              <BsChatLeft className="text-lg text-black" />
+              <BsChatLeft className="text-base text-black sm:text-lg md:text-xl" />
             )
           }
         </NavLink>

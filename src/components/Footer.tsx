@@ -17,9 +17,9 @@ const Footer = () => {
         <NavLink to="." end>
           {({ isActive }) =>
             isActive ? (
-              <HiHome className="text-lg text-black" />
+              <HiHome className="text-lg text-black sm:text-xl md:text-2xl" />
             ) : (
-              <HiOutlineHome className="text-lg text-black" />
+              <HiOutlineHome className="text-lg text-black sm:text-xl md:text-2xl" />
             )
           }
         </NavLink>
@@ -28,9 +28,9 @@ const Footer = () => {
         <NavLink to="search">
           {({ isActive }) =>
             isActive ? (
-              <RiSearchFill className="text-lg text-black" />
+              <RiSearchFill className="text-lg text-black sm:text-xl md:text-2xl" />
             ) : (
-              <BiSearch className="text-lg text-black" />
+              <BiSearch className="text-lg text-black sm:text-xl md:text-2xl" />
             )
           }
         </NavLink>
@@ -39,9 +39,9 @@ const Footer = () => {
         <NavLink to="post">
           {({ isActive }) =>
             isActive ? (
-              <BsPlusSquareFill className="text-lg text-black" />
+              <BsPlusSquareFill className="text-lg text-black sm:text-xl md:text-2xl" />
             ) : (
-              <BsPlusSquare className="text-lg text-black" />
+              <BsPlusSquare className="text-lg text-black sm:text-xl md:text-2xl" />
             )
           }
         </NavLink>
@@ -50,9 +50,9 @@ const Footer = () => {
         <NavLink to="liked">
           {({ isActive }) =>
             isActive ? (
-              <BsHeartFill className="text-lg text-black" />
+              <BsHeartFill className="text-lg text-black sm:text-xl md:text-2xl" />
             ) : (
-              <BsHeart className="text-lg text-black" />
+              <BsHeart className="text-lg text-black sm:text-xl md:text-2xl" />
             )
           }
         </NavLink>
@@ -61,9 +61,9 @@ const Footer = () => {
         <NavLink to="profile">
           {({ isActive }) =>
             isActive ? (
-              <FaUserCircle className="text-lg text-black" />
+              <FaUserCircle className="text-lg text-black sm:text-xl md:text-2xl" />
             ) : (
-              <FaRegUserCircle className="text-lg text-black" />
+              <FaRegUserCircle className="text-lg text-black sm:text-xl md:text-2xl" />
             )
           }
         </NavLink>
