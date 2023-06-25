@@ -15,6 +15,7 @@ import Post from "./pages/Post";
 import Liked from "./pages/Liked";
 import Profile from "./pages/Profile";
 import Chat from "./pages/Chat";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +44,7 @@ const router = createBrowserRouter(
         <Route path="liked" element={<Liked />} />
         <Route path="profile" element={<Profile />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Route>
   )
 );
