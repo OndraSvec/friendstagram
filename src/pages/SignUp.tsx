@@ -19,7 +19,7 @@ const SignUp: React.FC<SignUpProps> = ({ initialState }) => {
   return (
     <Wrapper>
       <div className="grid w-full  grid-cols-3 items-center border-b border-solid border-gray-300 p-2 sm:p-3 md:border-b-2 md:p-4">
-        <Link to="/">
+        <Link to="/" className="focus:outline-none">
           <MdOutlineArrowBackIosNew className="text-lg sm:text-2xl md:text-3xl" />
         </Link>
         <h1 className="text-center text-sm font-medium sm:text-lg md:text-2xl">

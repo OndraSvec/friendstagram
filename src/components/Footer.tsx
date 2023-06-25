@@ -14,7 +14,7 @@ const Footer = () => {
   return (
     <footer className="grid grid-cols-5 items-center border-t border-solid border-gray-300 px-3 py-2">
       <div className="grid place-items-center">
-        <NavLink to="." end>
+        <NavLink to="." end className="focus:outline-none">
           {({ isActive }) =>
             isActive ? (
               <HiHome className="text-lg text-black sm:text-xl md:text-2xl" />
@@ -25,7 +25,7 @@ const Footer = () => {
         </NavLink>
       </div>
       <div className="grid place-items-center">
-        <NavLink to="search">
+        <NavLink to="search" className="focus:outline-none">
           {({ isActive }) =>
             isActive ? (
               <RiSearchFill className="text-lg text-black sm:text-xl md:text-2xl" />
@@ -36,7 +36,7 @@ const Footer = () => {
         </NavLink>
       </div>
       <div className="grid place-items-center">
-        <NavLink to="post">
+        <NavLink to="post" className="focus:outline-none">
           {({ isActive }) =>
             isActive ? (
               <BsPlusSquareFill className="text-lg text-black sm:text-xl md:text-2xl" />
@@ -47,7 +47,7 @@ const Footer = () => {
         </NavLink>
       </div>
       <div className="grid place-items-center">
-        <NavLink to="liked">
+        <NavLink to="liked" className="focus:outline-none">
           {({ isActive }) =>
             isActive ? (
               <BsHeartFill className="text-lg text-black sm:text-xl md:text-2xl" />
@@ -58,7 +58,7 @@ const Footer = () => {
         </NavLink>
       </div>
       <div className="grid place-items-center">
-        <NavLink to="profile">
+        <NavLink to="profile" className="focus:outline-none">
           {({ isActive }) =>
             isActive ? (
               <FaUserCircle className="text-lg text-black sm:text-xl md:text-2xl" />

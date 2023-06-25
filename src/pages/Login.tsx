@@ -53,7 +53,10 @@ const Login = () => {
       </div>
       <div className="flex w-4/5 justify-center gap-1 text-xs sm:text-base md:text-lg lg:w-3/5">
         <p>Don't have an account?</p>
-        <Link to="/signup" className="font-medium text-sky-400">
+        <Link
+          to="/signup"
+          className="font-medium text-sky-400 focus:outline-none"
+        >
           Sign Up
         </Link>
       </div>

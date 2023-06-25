@@ -23,7 +23,7 @@ const Header = () => {
         </h1>
       </div>
       <div className="flex justify-end">
-        <NavLink to="chat">
+        <NavLink to="chat" className="focus:outline-none">
           {({ isActive }) =>
             isActive ? (
               <BsChatLeftFill className="text-base text-black sm:text-lg md:text-xl" />
