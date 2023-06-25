@@ -21,8 +21,6 @@ const Post = () => {
   const [error, setError] = useState<null | string>(null);
   const types: string[] = ["image/png", "image/jpeg"];
 
-  console.log(formData);
-
   const handleFileChange: handleFileChange = (e) => {
     const selectedFile: SelectedFile = e.target.files[0];
 
