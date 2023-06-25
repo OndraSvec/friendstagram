@@ -10,6 +10,11 @@ import SignUp from "./pages/SignUp";
 import Feed from "./pages/Feed";
 import PrivateRoute from "./components/PrivateRoute";
 import Layout from "./components/Layout";
+import Search from "./pages/Search";
+import Post from "./pages/Post";
+import Liked from "./pages/Liked";
+import Profile from "./pages/Profile";
+import Chat from "./pages/Chat";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +37,11 @@ const router = createBrowserRouter(
         }
       >
         <Route index element={<Feed />} />
+        <Route path="chat" element={<Chat />} />
+        <Route path="search" element={<Search />} />
+        <Route path="post" element={<Post />} />
+        <Route path="liked" element={<Liked />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
     </Route>
   )
