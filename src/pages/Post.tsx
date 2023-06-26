@@ -1,6 +1,6 @@
 import Wrapper from "../components/Wrapper";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 
 interface FormState {
   file: File | null;
@@ -45,9 +45,17 @@ const Post = () => {
       [name]: value,
     }));
   };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <Wrapper className="w-full py-3">
-      <form className="flex  w-4/5 flex-grow flex-col items-center gap-2 lg:w-3/5">
+      <form
+        onSubmit={handleSubmit}
+        className="flex  w-4/5 flex-grow flex-col items-center gap-2 lg:w-3/5"
+      >
         <input
           type="file"
           className="border-1 w-full rounded-s border border-gray-300 p-0 text-sm text-gray-400 outline-gray-300 file:rounded file:border-none file:bg-sky-400 file:p-1 file:font-medium file:text-white file:outline-none sm:text-base md:text-lg lg:text-xl"
