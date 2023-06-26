@@ -5,6 +5,7 @@ import { useState, useEffect, FormEvent, useContext } from "react";
 import addFileToStorage from "../firebase/functions";
 import { addFileToFirestore } from "../firebase/functions";
 import { AppContext } from "../AppContext";
+import { useNavigate } from "react-router-dom";
 
 interface FormState {
   file: File | null;
@@ -27,6 +28,7 @@ const Post = () => {
   const [url, setUrl] = useState<null | string>(null);
   const types: string[] = ["image/png", "image/jpeg"];
   const { user } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const handleFileChange: handleFileChange = (e) => {
     const selectedFile: SelectedFile = e.target.files[0];
@@ -64,8 +66,9 @@ const Post = () => {
     if (url) {
       addFileToFirestore("posts", url, user.uid, formData.textarea);
       setUrl(null);
+      navigate("/feed");
     }
-  }, [formData.textarea, url, user.uid]);
+  }, [formData.textarea, url, user.uid, navigate]);
 
   return (
     <Wrapper className="w-4/5 gap-2 py-3 lg:w-3/5">

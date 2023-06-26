@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { getFirestoreFeed } from "../firebase/functions";
 import { useLoaderData } from "react-router-dom";
 
@@ -6,7 +7,12 @@ export async function loader() {
 }
 
 const Feed = () => {
-  const docs = useLoaderData();
+  const docs: {
+    createdAt: Timestamp;
+    description: string;
+    id: string;
+    url: string;
+  }[] = useLoaderData();
   const feedElements = docs.map((item) => (
     <div className="aspect-square w-40 overflow-hidden" key={item.id}>
       <img

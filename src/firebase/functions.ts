@@ -61,7 +61,11 @@ export const addFileToFirestore = async (
 export const getFirestoreFeed = async (collectionName: string) => {
   const q = query(collection(db, collectionName), orderBy("createdAt", "desc"));
   const querySnapshot = await getDocs(q);
-  const documents: { createdAt: Timestamp; url: string; id: string }[] =
-    querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  const documents: {
+    createdAt: Timestamp;
+    url: string;
+    id: string;
+    description: string;
+  }[] = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   return documents;
 };
