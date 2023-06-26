@@ -63,10 +63,12 @@ const Post = () => {
           placeholder="Add description..."
           className="border-1 w-full flex-grow resize-none rounded-sm border border-gray-300 p-1 text-sm text-gray-400 outline-gray-300 sm:text-base md:text-lg lg:text-xl"
           onChange={handleDescriptionChange}
+          value={formData.textarea}
         />
         <Button
           text="Add post"
           className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white disabled:bg-gray-300 sm:p-2 sm:text-base md:p-3 md:text-lg lg:text-xl"
+          disabled={!formData.file}
         />
       </form>
     </Wrapper>
