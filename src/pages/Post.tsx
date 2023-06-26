@@ -1,14 +1,10 @@
 import Wrapper from "../components/Wrapper";
 import Button from "../components/Button";
 import ProgressBar from "../components/ProgressBar";
-import { useState, FormEvent } from "react";
-import { storage } from "../firebase/setup";
-import {
-  uploadBytesResumable,
-  ref,
-  getDownloadURL,
-  StorageError,
-} from "firebase/storage";
+import { useState, useEffect, FormEvent, useContext } from "react";
+import addFileToStorage from "../firebase/functions";
+import { addFileToFirestore } from "../firebase/functions";
+import { AppContext } from "../AppContext";
 
 interface FormState {
   file: File | null;
@@ -30,6 +26,7 @@ const Post = () => {
   const [progress, setProgress] = useState<number>(0);
   const [url, setUrl] = useState<null | string>(null);
   const types: string[] = ["image/png", "image/jpeg"];
+  const { user } = useContext(AppContext);
 
   const handleFileChange: handleFileChange = (e) => {
     const selectedFile: SelectedFile = e.target.files[0];
@@ -56,39 +53,26 @@ const Post = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.file) {
-      const storageRef = ref(storage, formData.file.name);
-
-      const uploadTask = uploadBytesResumable(storageRef, formData.file);
-      uploadTask.on(
-        "state_changed",
-        (snap) => {
-          const percentage = (snap.bytesTransferred / snap.totalBytes) * 100;
-          setProgress(percentage);
-        },
-        (error) => {
-          const errorMsg = error.message
-            .split("storage/")[1]
-            .replace(/-/g, " ");
-          const capitalizedErrMsg =
-            errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
-          setError(capitalizedErrMsg);
-        },
-        async () => {
-          const url = await getDownloadURL(uploadTask.snapshot.ref);
-          setUrl(url);
-        }
-      );
+      await addFileToStorage(formData.file, setProgress, setError, setUrl);
     }
   };
 
+  useEffect(() => {
+    if (url) {
+      addFileToFirestore("posts", url, user.uid, formData.textarea);
+      setUrl(null);
+    }
+  }, [formData.textarea, url, user.uid]);
+
   return (
-    <Wrapper className="w-full py-3">
+    <Wrapper className="w-4/5 gap-2 py-3 lg:w-3/5">
+      <ProgressBar progress={progress} />
       <form
         onSubmit={handleSubmit}
-        className="flex  w-4/5 flex-grow flex-col items-center gap-2 lg:w-3/5"
+        className="flex  w-full flex-grow flex-col items-center gap-2"
       >
         <input
           type="file"
