@@ -1,6 +1,14 @@
 import Wrapper from "../components/Wrapper";
 import Button from "../components/Button";
+import ProgressBar from "../components/ProgressBar";
 import { useState, FormEvent } from "react";
+import { storage } from "../firebase/setup";
+import {
+  uploadBytesResumable,
+  ref,
+  getDownloadURL,
+  StorageError,
+} from "firebase/storage";
 
 interface FormState {
   file: File | null;
@@ -19,6 +27,8 @@ const Post = () => {
     textarea: "",
   });
   const [error, setError] = useState<null | string>(null);
+  const [progress, setProgress] = useState<number>(0);
+  const [url, setUrl] = useState<null | string>(null);
   const types: string[] = ["image/png", "image/jpeg"];
 
   const handleFileChange: handleFileChange = (e) => {
@@ -48,6 +58,30 @@ const Post = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formData.file) {
+      const storageRef = ref(storage, formData.file.name);
+
+      const uploadTask = uploadBytesResumable(storageRef, formData.file);
+      uploadTask.on(
+        "state_changed",
+        (snap) => {
+          const percentage = (snap.bytesTransferred / snap.totalBytes) * 100;
+          setProgress(percentage);
+        },
+        (error) => {
+          const errorMsg = error.message
+            .split("storage/")[1]
+            .replace(/-/g, " ");
+          const capitalizedErrMsg =
+            errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
+          setError(capitalizedErrMsg);
+        },
+        async () => {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          setUrl(url);
+        }
+      );
+    }
   };
 
   return (
