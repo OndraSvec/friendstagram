@@ -58,26 +58,10 @@ export const addFileToFirestore = async (
   });
 };
 
-export const useFirestore = (collectionName: string) => {
-  const [docs, setDocs] = useState<
-    [] | { createdAt: Timestamp; url: string; id: string }[]
-  >([]);
-
-  useEffect(() => {
-    const getDocuments = async () => {
-      const q = query(
-        collection(db, collectionName),
-        orderBy("createdAt", "desc")
-      );
-      const querySnapshot = await getDocs(q);
-      const documents: { createdAt: Timestamp; url: string; id: string }[] =
-        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setDocs(documents);
-    };
-    getDocuments();
-
-    return () => getDocuments;
-  }, [collectionName]);
-
-  return { docs };
+export const getFirestoreFeed = async (collectionName: string) => {
+  const q = query(collection(db, collectionName), orderBy("createdAt", "desc"));
+  const querySnapshot = await getDocs(q);
+  const documents: { createdAt: Timestamp; url: string; id: string }[] =
+    querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  return documents;
 };

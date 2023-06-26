@@ -7,7 +7,7 @@ import {
 import Login from "./pages/Login";
 import { AppContextProvider } from "./AppContext";
 import SignUp from "./pages/SignUp";
-import Feed from "./pages/Feed";
+import Feed, { loader as feedLoader } from "./pages/Feed";
 import PrivateRoute from "./components/PrivateRoute";
 import Layout from "./components/Layout";
 import Search from "./pages/Search";
@@ -37,7 +37,7 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       >
-        <Route index element={<Feed />} />
+        <Route index element={<Feed />} loader={feedLoader} />
         <Route path="chat" element={<Chat />} />
         <Route path="search" element={<Search />} />
         <Route path="post" element={<Post />} />
