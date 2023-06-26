@@ -1,6 +1,15 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { serverTimestamp, addDoc, collection } from "firebase/firestore";
+import {
+  serverTimestamp,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  Timestamp,
+} from "firebase/firestore";
 import { storage, db } from "./setup";
+import { useEffect, useState } from "react";
 
 const addFileToStorage = async (
   file: File,
@@ -47,4 +56,28 @@ export const addFileToFirestore = async (
     uid,
     description,
   });
+};
+
+export const useFirestore = (collectionName: string) => {
+  const [docs, setDocs] = useState<
+    [] | { createdAt: Timestamp; url: string; id: string }[]
+  >([]);
+
+  useEffect(() => {
+    const getDocuments = async () => {
+      const q = query(
+        collection(db, collectionName),
+        orderBy("createdAt", "desc")
+      );
+      const querySnapshot = await getDocs(q);
+      const documents: { createdAt: Timestamp; url: string; id: string }[] =
+        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setDocs(documents);
+    };
+    getDocuments();
+
+    return () => getDocuments;
+  }, [collectionName]);
+
+  return { docs };
 };
