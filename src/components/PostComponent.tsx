@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import Button from "./Button";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { FaUserCircle } from "react-icons/fa";
 import { RiChatNewLine } from "react-icons/ri";
 import { getUser } from "../firebase/functions";
 
@@ -28,9 +29,13 @@ const PostComponent: React.FC<PostComponentProps> = ({
   }, []);
 
   return (
-    <div>
-      <div>
-        {user?.photo && <img src={user.photo} />}
+    <div className="mb-2">
+      <div className="flex items-center gap-1 p-1 text-xs">
+        {user?.photo ? (
+          <img src={user.photo} className="w-1/12 rounded-full" />
+        ) : (
+          <FaUserCircle className="text-2xl" />
+        )}
         {user?.name ? <p>{user.name}</p> : <p>{user?.email}</p>}
       </div>
       {children}
