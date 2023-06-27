@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { auth } from "./firebase/setup";
 import {
   GoogleAuthProvider,

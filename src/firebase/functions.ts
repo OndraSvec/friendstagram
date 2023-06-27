@@ -69,6 +69,7 @@ export const getFirestoreFeed = async (collectionName: string) => {
     createdAt: Timestamp;
     url: string;
     id: string;
+    uid: string;
     description: string;
     comments: { comment: string; uid: string }[] | [];
     likes: string[] | [];
