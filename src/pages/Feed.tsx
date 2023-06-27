@@ -19,6 +19,7 @@ const Feed = () => {
       <img
         src={item.url}
         className="block aspect-square w-full object-cover object-center"
+        loading="lazy"
       />
     </div>
   ));

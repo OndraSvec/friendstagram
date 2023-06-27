@@ -24,6 +24,7 @@ const Post = () => {
     textarea: "",
   });
   const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [url, setUrl] = useState<null | string>(null);
   const types: string[] = ["image/png", "image/jpeg"];
@@ -58,14 +59,16 @@ const Post = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.file) {
+      setLoading(true);
       await addFileToStorage(formData.file, setProgress, setError, setUrl);
     }
   };
 
   useEffect(() => {
     if (url) {
-      addFileToFirestore("posts", url, user.uid, formData.textarea);
+      addFileToFirestore("posts", url, user.uid, formData.textarea, [], []);
       setUrl(null);
+      setLoading(false);
       navigate("/feed");
     }
   }, [formData.textarea, url, user.uid, navigate]);
@@ -97,7 +100,7 @@ const Post = () => {
         <Button
           text="Add post"
           className="w-full rounded-md bg-sky-400 p-1 text-sm font-medium text-white disabled:bg-gray-300 sm:p-2 sm:text-base md:p-3 md:text-lg lg:text-xl"
-          disabled={!formData.file}
+          disabled={!formData.file || loading}
         />
       </form>
     </Wrapper>

@@ -47,7 +47,9 @@ export const addFileToFirestore = async (
   collectionName: string,
   url: string,
   uid: string,
-  description: string
+  description: string,
+  comments: { comment: string; uid: string }[] | [],
+  likes: string[] | []
 ) => {
   const createdAt = serverTimestamp();
   addDoc(collection(db, collectionName), {
@@ -55,6 +57,8 @@ export const addFileToFirestore = async (
     createdAt,
     uid,
     description,
+    comments,
+    likes,
   });
 };
 
@@ -66,6 +70,8 @@ export const getFirestoreFeed = async (collectionName: string) => {
     url: string;
     id: string;
     description: string;
+    comments: { comment: string; uid: string }[] | [];
+    likes: string[] | [];
   }[] = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   return documents;
 };
