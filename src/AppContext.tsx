@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { addUserToFirestore } from "./firebase/functions";
 
 type AppContextProps =
   | "Default Value"
@@ -39,6 +40,7 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         setUser(result.user);
+        addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {
@@ -59,6 +61,7 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     signInWithPopup(auth, facebookProvider)
       .then((result) => {
         setUser(result.user);
+        addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {
@@ -78,6 +81,7 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         setUser(result.user);
+        addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {
@@ -97,6 +101,7 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         setUser(result.user);
+        addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {

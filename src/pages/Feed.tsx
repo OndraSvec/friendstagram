@@ -18,6 +18,7 @@ const Feed = () => {
     likes: string[] | [];
     comments: { comment: string; uid: string }[] | [];
   }[] = useLoaderData();
+
   const feedElements = docs.map((item) => (
     <PostComponent
       comments={item.comments}

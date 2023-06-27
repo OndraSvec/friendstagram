@@ -9,7 +9,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { storage, db } from "./setup";
-import { useEffect, useState } from "react";
+import { User } from "firebase/auth";
 
 const addFileToStorage = async (
   file: File,
@@ -75,4 +75,13 @@ export const getFirestoreFeed = async (collectionName: string) => {
     likes: string[] | [];
   }[] = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   return documents;
+};
+
+export const addUserToFirestore = async (user: User) => {
+  addDoc(collection(db, "users"), {
+    uid: user.uid,
+    name: user.displayName,
+    email: user.email,
+    photo: user.photoURL,
+  });
 };
