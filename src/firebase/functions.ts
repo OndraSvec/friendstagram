@@ -7,6 +7,7 @@ import {
   query,
   orderBy,
   Timestamp,
+  where,
 } from "firebase/firestore";
 import { storage, db } from "./setup";
 import { User } from "firebase/auth";
@@ -84,4 +85,11 @@ export const addUserToFirestore = async (user: User) => {
     email: user.email,
     photo: user.photoURL,
   });
+};
+
+export const getUser = async (uid: string) => {
+  const q = query(collection(db, "users"), where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  const documents = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+  return documents[0];
 };
