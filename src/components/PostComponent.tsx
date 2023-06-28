@@ -29,8 +29,8 @@ const PostComponent: React.FC<PostComponentProps> = ({
   }, []);
 
   return (
-    <div className="mb-2">
-      <div className="flex items-center gap-1 p-1 text-xs">
+    <div className="mb-2 text-xs">
+      <div className="flex items-center gap-1 p-1">
         {user?.photo ? (
           <img src={user.photo} className="w-1/12 rounded-full" />
         ) : (
@@ -45,7 +45,14 @@ const PostComponent: React.FC<PostComponentProps> = ({
           <Button icon={<RiChatNewLine />} />
         </div>
         <div>{`${likes.length} like${likes.length === 1 ? "" : "s"}`}</div>
-        <div>{description}</div>
+        <p>
+          {user?.name ? (
+            <span className="font-medium text-blue-700">{user?.name}</span>
+          ) : (
+            <span className="font-medium text-blue-700">{user?.email}</span>
+          )}{" "}
+          {description}
+        </p>
       </div>
     </div>
   );
