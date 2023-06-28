@@ -8,6 +8,9 @@ import {
   orderBy,
   Timestamp,
   where,
+  doc,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { storage, db } from "./setup";
 import { User } from "firebase/auth";
@@ -92,4 +95,33 @@ export const getUser = async (uid: string) => {
   const querySnapshot = await getDocs(q);
   const documents = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
   return documents[0];
+};
+
+export const switchLikedPost = async (postID: string, uid: string) => {
+  const docRef = doc(db, "posts", postID);
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.data()?.likes.includes(uid))
+    await updateDoc(docRef, {
+      likes: [...docSnap.data().likes, uid],
+    });
+  else
+    await updateDoc(docRef, {
+      likes: [...docSnap.data().likes.filter((item: string) => item !== uid)],
+    });
+};
+
+export const isLiked = async (postID: string, uid: string) => {
+  const docRef = doc(db, "posts", postID);
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.data()?.likes.includes(uid)) return true;
+  else return false;
+};
+
+export const getLikes = async (postID: string) => {
+  const docRef = doc(db, "posts", postID);
+  const docSnap = await getDoc(docRef);
+
+  return docSnap.data()?.likes.length;
 };

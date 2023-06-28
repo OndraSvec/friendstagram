@@ -3,6 +3,8 @@ import { getFirestoreFeed } from "../firebase/functions";
 import { useLoaderData } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import PostComponent from "../components/PostComponent";
+import { useContext } from "react";
+import { AppContext } from "../AppContext";
 
 export async function loader() {
   return getFirestoreFeed("posts");
@@ -19,12 +21,16 @@ const Feed = () => {
     comments: { comment: string; uid: string }[] | [];
   }[] = useLoaderData();
 
+  const { user } = useContext(AppContext);
+
   const feedElements = docs.map((item) => (
     <PostComponent
       comments={item.comments}
       likes={item.likes}
       description={item.description}
       uid={item.uid}
+      currentUserID={user.uid}
+      postID={item.id}
       key={item.id}
     >
       <div className="aspect-square w-full overflow-hidden">
