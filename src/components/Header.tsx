@@ -8,7 +8,7 @@ import Button from "./Button";
 const Header = () => {
   const { signOut } = useContext(AppContext);
   return (
-    <header className="grid grid-cols-3 items-center border-b border-solid border-gray-300 px-3 py-2 sm:px-5 md:px-8">
+    <header className="fixed grid h-12 grid-cols-3 items-center border-b border-solid border-gray-300 bg-white px-3 py-2 sm:px-5 md:px-8">
       <div>
         <Button
           icon={
