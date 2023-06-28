@@ -8,7 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { addUserToFirestore } from "./firebase/functions";
+import { addUserToFirestore, getUser } from "./firebase/functions";
 
 type AppContextProps =
   | "Default Value"
@@ -38,9 +38,9 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     const googleProvider = new GoogleAuthProvider();
     setLoading(true);
     signInWithPopup(auth, googleProvider)
-      .then((result) => {
+      .then(async (result) => {
         setUser(result.user);
-        addUserToFirestore(result.user);
+        if (!(await getUser(result.user.uid))) addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {
@@ -59,9 +59,9 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     const facebookProvider = new FacebookAuthProvider();
     setLoading(true);
     signInWithPopup(auth, facebookProvider)
-      .then((result) => {
+      .then(async (result) => {
         setUser(result.user);
-        addUserToFirestore(result.user);
+        if (!(await getUser(result.user.uid))) addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {
@@ -79,9 +79,9 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
   const signUpWithPassword = (email: string, password: string) => {
     setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
-      .then((result) => {
+      .then(async (result) => {
         setUser(result.user);
-        addUserToFirestore(result.user);
+        if (!(await getUser(result.user.uid))) addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {
@@ -99,9 +99,9 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
   const signInWithPassword = (email: string, password: string) => {
     setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
-      .then((result) => {
+      .then(async (result) => {
         setUser(result.user);
-        addUserToFirestore(result.user);
+        if (!(await getUser(result.user.uid))) addUserToFirestore(result.user);
         setError(null);
       })
       .catch((error) => {
