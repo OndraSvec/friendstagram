@@ -39,8 +39,8 @@ const PostComponent: React.FC<PostComponentProps> = ({
         {user?.name ? <p>{user.name}</p> : <p>{user?.email}</p>}
       </div>
       {children}
-      <div className="p-2">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-1 p-2">
+        <div className="flex items-center gap-2 text-base">
           <Button icon={<BsHeart />} />
           <Button icon={<RiChatNewLine />} />
         </div>
