@@ -101,14 +101,16 @@ export const switchLikedPost = async (postID: string, uid: string) => {
   const docRef = doc(db, "posts", postID);
   const docSnap = await getDoc(docRef);
 
-  if (!docSnap.data()?.likes.includes(uid))
-    await updateDoc(docRef, {
-      likes: [...docSnap.data().likes, uid],
-    });
-  else
-    await updateDoc(docRef, {
-      likes: [...docSnap.data().likes.filter((item: string) => item !== uid)],
-    });
+  if (docSnap.exists()) {
+    if (!docSnap.data()?.likes.includes(uid))
+      await updateDoc(docRef, {
+        likes: [...docSnap.data().likes, uid],
+      });
+    else
+      await updateDoc(docRef, {
+        likes: [...docSnap.data().likes.filter((item: string) => item !== uid)],
+      });
+  }
 };
 
 export const isLiked = async (postID: string, uid: string) => {
@@ -124,4 +126,25 @@ export const getLikes = async (postID: string) => {
   const docSnap = await getDoc(docRef);
 
   return docSnap.data()?.likes.length;
+};
+
+export const addComment = async (
+  postID: string,
+  uid: string,
+  comment: string
+) => {
+  const docRef = doc(db, "posts", postID);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    await updateDoc(docRef, {
+      comments: [
+        ...docSnap.data().comments,
+        {
+          comment,
+          uid,
+        },
+      ],
+    });
+  }
 };
