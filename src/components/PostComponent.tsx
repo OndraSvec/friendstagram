@@ -5,6 +5,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { RiChatNewLine } from "react-icons/ri";
 import {
   addComment,
+  getComments,
   getLikes,
   getUser,
   isLiked,
@@ -38,6 +39,8 @@ const PostComponent: React.FC<PostComponentProps> = ({
   const [commentToAdd, setCommentToAdd] = useState<boolean>(false);
   const [newComment, setNewComment] = useState<string>("");
   const [commentsExpanded, setCommentsExpanded] = useState<boolean>(false);
+  const [allComments, setAllComments] =
+    useState<{ uid: string; comment: string }[]>(comments);
 
   useEffect(() => {
     const unsub = getUser(uid).then((res) => setPostedBy(res));
@@ -73,12 +76,14 @@ const PostComponent: React.FC<PostComponentProps> = ({
     await addComment(postID, currentUserID, newComment);
     setNewComment("");
     setCommentToAdd(false);
+    //Make sure this works tomorrow
+    getComments(postID).then((res) => setAllComments(res));
   };
 
   const switchCommentsExpanded = () =>
     setCommentsExpanded((prevState) => !prevState);
 
-  const commentElements = comments.map((comment) => (
+  const commentElements = allComments.map((comment) => (
     <Comment comment={comment} key={nanoid()} />
   ));
 

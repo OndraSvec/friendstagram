@@ -148,3 +148,10 @@ export const addComment = async (
     });
   }
 };
+
+export const getComments = async (postID: string) => {
+  const docRef = doc(db, "posts", postID);
+  const docSnap = await getDoc(docRef);
+
+  return docSnap.data()?.comments;
+};
