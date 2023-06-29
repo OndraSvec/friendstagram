@@ -10,6 +10,8 @@ import {
   isLiked,
   switchLikedPost,
 } from "../firebase/functions";
+import Comment from "./Comment";
+import { nanoid } from "nanoid";
 
 interface PostComponentProps {
   children: ReactNode;
@@ -35,6 +37,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
   const [likeNum, setLikeNum] = useState<number>(likes.length);
   const [commentToAdd, setCommentToAdd] = useState<boolean>(false);
   const [newComment, setNewComment] = useState<string>("");
+  const [commentsExpanded, setCommentsExpanded] = useState<boolean>(false);
 
   useEffect(() => {
     const unsub = getUser(uid).then((res) => setPostedBy(res));
@@ -61,14 +64,23 @@ const PostComponent: React.FC<PostComponentProps> = ({
   };
 
   const handleComment = () => setCommentToAdd((prevState) => !prevState);
+
   const handleCommentChange = (e: ChangeEvent<HTMLInputElement>) =>
     setNewComment(e.target.value);
+
   const handleAddComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await addComment(postID, currentUserID, newComment);
     setNewComment("");
     setCommentToAdd(false);
   };
+
+  const switchCommentsExpanded = () =>
+    setCommentsExpanded((prevState) => !prevState);
+
+  const commentElements = comments.map((comment) => (
+    <Comment comment={comment} key={nanoid()} />
+  ));
 
   return (
     <div className="mb-2 text-xs">
@@ -116,6 +128,18 @@ const PostComponent: React.FC<PostComponentProps> = ({
               <Button icon={<BsSendCheck />} />
             </div>
           </form>
+        )}
+        {comments.length > 0 && (
+          <div>
+            {comments.length > 1 && (
+              <button className="text-black" onClick={switchCommentsExpanded}>
+                <i>
+                  {commentsExpanded ? "Show me just one" : "See all comments"}
+                </i>
+              </button>
+            )}
+            {commentsExpanded ? commentElements : commentElements[0]}
+          </div>
         )}
       </div>
     </div>
