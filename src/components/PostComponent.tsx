@@ -1,9 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react";
 import Button from "./Button";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsHeart, BsHeartFill, BsSendCheck } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { RiChatNewLine } from "react-icons/ri";
 import {
+  addComment,
   getLikes,
   getUser,
   isLiked,
@@ -29,12 +30,14 @@ const PostComponent: React.FC<PostComponentProps> = ({
   postID,
   children,
 }) => {
-  const [user, setUser] = useState<null | { [x: string]: any }>(null);
+  const [postedBy, setPostedBy] = useState<null | { [x: string]: any }>(null);
   const [liked, setLiked] = useState<boolean>(false);
   const [likeNum, setLikeNum] = useState<number>(likes.length);
+  const [commentToAdd, setCommentToAdd] = useState<boolean>(false);
+  const [newComment, setNewComment] = useState<string>("");
 
   useEffect(() => {
-    const unsub = getUser(uid).then((res) => setUser(res));
+    const unsub = getUser(uid).then((res) => setPostedBy(res));
 
     return () => unsub;
   }, [uid]);
@@ -57,15 +60,25 @@ const PostComponent: React.FC<PostComponentProps> = ({
     else setLiked(true);
   };
 
+  const handleComment = () => setCommentToAdd((prevState) => !prevState);
+  const handleCommentChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setNewComment(e.target.value);
+  const handleAddComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await addComment(postID, currentUserID, newComment);
+    setNewComment("");
+    setCommentToAdd(false);
+  };
+
   return (
     <div className="mb-2 text-xs">
       <div className="flex items-center gap-1 p-1">
-        {user?.photo ? (
-          <img src={user.photo} className="w-1/12 rounded-full" />
+        {postedBy?.photo ? (
+          <img src={postedBy.photo} className="w-1/12 rounded-full" />
         ) : (
           <FaUserCircle className="text-2xl" />
         )}
-        {user?.name ? <p>{user.name}</p> : <p>{user?.email}</p>}
+        {postedBy?.name ? <p>{postedBy.name}</p> : <p>{postedBy?.email}</p>}
       </div>
       {children}
       <div className="flex flex-col gap-1 p-2">
@@ -76,17 +89,34 @@ const PostComponent: React.FC<PostComponentProps> = ({
               liked ? <BsHeartFill className="text-rose-600" /> : <BsHeart />
             }
           />
-          <Button icon={<RiChatNewLine />} />
+          <Button icon={<RiChatNewLine />} onClick={handleComment} />
         </div>
         <div>{`${likeNum} like${likeNum === 1 ? "" : "s"}`}</div>
         <p>
-          {user?.name ? (
-            <span className="font-medium text-blue-700">{user?.name}</span>
+          {postedBy?.name ? (
+            <span className="font-medium text-blue-700">{postedBy?.name}</span>
           ) : (
-            <span className="font-medium text-blue-700">{user?.email}</span>
+            <span className="font-medium text-blue-700">{postedBy?.email}</span>
           )}{" "}
           {description}
         </p>
+        {commentToAdd && (
+          <form onSubmit={handleAddComment}>
+            <label htmlFor="commentInput">
+              <i>Add new comment:</i>
+            </label>
+            <div className="flex items-center gap-1 pr-3">
+              <input
+                className="border-1 w-full rounded-sm border border-black pl-1  text-black outline-black"
+                type="text"
+                id="commentInput"
+                onChange={handleCommentChange}
+                value={newComment}
+              />
+              <Button icon={<BsSendCheck />} />
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
