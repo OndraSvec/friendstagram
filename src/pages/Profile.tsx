@@ -4,6 +4,7 @@ import { getProfileFeed } from "../firebase/functions";
 import ImageGrid from "../components/ImageGrid";
 import { Timestamp } from "firebase/firestore";
 import Wrapper from "../components/Wrapper";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [posts, setPosts] = useState<
@@ -28,11 +29,13 @@ const Profile = () => {
 
   const feedElements = posts.map((post) => (
     <div key={post.id} className="aspect-square w-full">
-      <img
-        src={post.url}
-        loading="lazy"
-        className="aspect-square w-full object-cover object-center"
-      />
+      <Link to={post.id}>
+        <img
+          src={post.url}
+          loading="lazy"
+          className="aspect-square w-full object-cover object-center"
+        />
+      </Link>
     </div>
   ));
   return (

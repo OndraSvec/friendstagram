@@ -165,3 +165,10 @@ export const getProfileFeed = async (uid: string) => {
   }));
   return documents;
 };
+
+export const getDocument = async (postID: string) => {
+  const docRef = doc(db, "posts", postID);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) return docSnap.data();
+};

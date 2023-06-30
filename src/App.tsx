@@ -16,6 +16,9 @@ import Liked from "./pages/Liked";
 import Profile from "./pages/Profile";
 import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
+import ProfilePostDetail, {
+  loader as postDetailLoader,
+} from "./components/ProfilePostDetail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +46,11 @@ const router = createBrowserRouter(
         <Route path="post" element={<Post />} />
         <Route path="liked" element={<Liked />} />
         <Route path="profile" element={<Profile />} />
+        <Route
+          path="profile/:postID"
+          element={<ProfilePostDetail />}
+          loader={postDetailLoader}
+        />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>

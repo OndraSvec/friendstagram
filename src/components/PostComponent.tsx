@@ -22,6 +22,7 @@ interface PostComponentProps {
   uid: string;
   postID: string;
   currentUserID: string;
+  className?: string;
 }
 
 const PostComponent: React.FC<PostComponentProps> = ({
@@ -31,6 +32,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
   uid,
   currentUserID,
   postID,
+  className,
   children,
 }) => {
   const [postedBy, setPostedBy] = useState<null | { [x: string]: any }>(null);
@@ -87,7 +89,9 @@ const PostComponent: React.FC<PostComponentProps> = ({
   ));
 
   return (
-    <div className="mb-2 text-xs sm:text-sm md:text-base lg:text-lg">
+    <div
+      className={`mb-2 text-xs sm:text-sm md:text-base lg:text-lg ${className}`}
+    >
       <div className="flex items-center gap-1 p-1">
         {postedBy?.photo ? (
           <img
