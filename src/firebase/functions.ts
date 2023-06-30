@@ -172,3 +172,16 @@ export const getDocument = async (postID: string) => {
 
   if (docSnap.exists()) return docSnap.data();
 };
+
+export const getLikedFeed = async (uid: string) => {
+  const q = query(
+    collection(db, "posts"),
+    where("likes", "array-contains", uid)
+  );
+  const querySnapshot = await getDocs(q);
+  const documents = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+  return documents;
+};
