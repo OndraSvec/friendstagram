@@ -159,6 +159,9 @@ export const getComments = async (postID: string) => {
 export const getProfileFeed = async (uid: string) => {
   const q = query(collection(db, "posts"), where("uid", "==", uid));
   const querySnapshot = await getDocs(q);
-  const documents = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+  const documents = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
   return documents;
 };
