@@ -5,7 +5,7 @@ interface ImageGridProps {
 }
 
 const ImageGrid: React.FC<ImageGridProps> = ({ children }) => (
-  <div className="grid w-full grid-cols-3 gap-1 overflow-hidden">
+  <div className="grid w-full grid-cols-3 gap-1 overflow-hidden lg:grid-cols-4">
     {children}
   </div>
 );
