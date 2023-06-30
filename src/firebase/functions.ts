@@ -155,3 +155,10 @@ export const getComments = async (postID: string) => {
 
   return docSnap.data()?.comments;
 };
+
+export const getProfileFeed = async (uid: string) => {
+  const q = query(collection(db, "posts"), where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  const documents = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+  return documents;
+};
