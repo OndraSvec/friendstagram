@@ -76,7 +76,6 @@ const PostComponent: React.FC<PostComponentProps> = ({
     await addComment(postID, currentUserID, newComment);
     setNewComment("");
     setCommentToAdd(false);
-    //Make sure this works tomorrow
     getComments(postID).then((res) => setAllComments(res));
   };
 
