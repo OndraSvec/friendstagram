@@ -56,16 +56,12 @@ const PostComponent: React.FC<PostComponentProps> = ({
     return () => unsub;
   }, [currentUserID, postID]);
 
-  useEffect(() => {
-    const unsub = getLikes(postID).then((res) => setLikeNum(res));
-
-    return () => unsub;
-  }, [liked, postID]);
-
   const handleLike = async (uid: string, postID: string) => {
     await switchLikedPost(postID, uid);
     if (await isLiked(postID, uid)) setLiked(false);
     else setLiked(true);
+    const likes = await getLikes(postID);
+    setLikeNum(likes);
   };
 
   const handleComment = () => setCommentToAdd((prevState) => !prevState);
