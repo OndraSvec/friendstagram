@@ -42,7 +42,7 @@ const Feed = () => {
       </div>
     </PostComponent>
   ));
-  return <Wrapper>{feedElements}</Wrapper>;
+  return <Wrapper className="lg:px-36">{feedElements}</Wrapper>;
 };
 
 export default Feed;
