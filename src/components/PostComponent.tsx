@@ -87,18 +87,21 @@ const PostComponent: React.FC<PostComponentProps> = ({
   ));
 
   return (
-    <div className="mb-2 text-xs">
+    <div className="mb-2 text-xs sm:text-sm md:text-base lg:text-lg">
       <div className="flex items-center gap-1 p-1">
         {postedBy?.photo ? (
-          <img src={postedBy.photo} className="w-1/12 rounded-full" />
+          <img
+            src={postedBy.photo}
+            className="w-6 rounded-full sm:w-7 md:w-9 lg:w-12"
+          />
         ) : (
-          <FaUserCircle className="text-2xl" />
+          <FaUserCircle className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl" />
         )}
         {postedBy?.name ? <p>{postedBy.name}</p> : <p>{postedBy?.email}</p>}
       </div>
       {children}
       <div className="flex flex-col gap-1 p-2">
-        <div className="flex items-center gap-2 text-base">
+        <div className="flex items-center gap-2 text-base sm:text-2xl md:text-3xl lg:text-4xl">
           <Button
             onClick={() => handleLike(currentUserID, postID)}
             icon={
