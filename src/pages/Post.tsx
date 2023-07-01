@@ -66,7 +66,10 @@ const Post = () => {
 
   useEffect(() => {
     if (url) {
-      const tags = formData.textarea.toLowerCase().split(" ");
+      const tags = formData.textarea
+        .toLowerCase()
+        .replace(/[^\w ]/g, "")
+        .split(" ");
       const uniqueTags = [...new Set(tags)];
       addFileToFirestore(
         "posts",

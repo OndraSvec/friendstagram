@@ -185,7 +185,7 @@ export const getLikedFeed = async (uid: string) => {
 export const getSearchFeed = async (tag: string) => {
   const q = query(
     collection(db, "posts"),
-    where("tags", "array-contains", `${tag}\uf8ff`)
+    where("tags", "array-contains", tag)
   );
   const querySnapshot = await getDocs(q);
   const documents = querySnapshot.docs.map((doc) => ({
