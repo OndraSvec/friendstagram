@@ -22,6 +22,10 @@ import ProfilePostDetail, {
 import LikedPostDetail, {
   loader as likedPostLoader,
 } from "./components/LikedPostDetail";
+import UserDetail, { loader as userDetailLoader } from "./pages/UserDetail";
+import UserPostDetail, {
+  loader as userPostLoader,
+} from "./pages/UserPostDetail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +50,16 @@ const router = createBrowserRouter(
         <Route index element={<Feed />} loader={feedLoader} />
         <Route path="chat" element={<Chat />} />
         <Route path="search" element={<Search />} />
+        <Route
+          path="search/:userID"
+          element={<UserDetail />}
+          loader={userDetailLoader}
+        />
+        <Route
+          path="search/user/:postID"
+          element={<UserPostDetail />}
+          loader={userPostLoader}
+        />
         <Route path="post" element={<Post />} />
         <Route path="liked" element={<Liked />} />
         <Route

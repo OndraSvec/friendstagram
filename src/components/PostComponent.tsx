@@ -13,6 +13,7 @@ import {
 } from "../firebase/functions";
 import Comment from "./Comment";
 import { nanoid } from "nanoid";
+import { Link } from "react-router-dom";
 
 interface PostComponentProps {
   children: ReactNode;
@@ -98,7 +99,11 @@ const PostComponent: React.FC<PostComponentProps> = ({
         ) : (
           <FaUserCircle className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl" />
         )}
-        {postedBy?.name ? <p>{postedBy.name}</p> : <p>{postedBy?.email}</p>}
+        {postedBy?.name ? (
+          <Link to={`/feed/search/${uid}`}>{postedBy.name}</Link>
+        ) : (
+          <Link to={`/feed/search/${uid}`}>{postedBy?.email}</Link>
+        )}
       </div>
       {children}
       <div className="flex flex-col gap-1 p-2">
