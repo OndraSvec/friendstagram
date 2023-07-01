@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { getUser } from "../firebase/functions";
 
@@ -13,7 +13,11 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
   const [commentedBy, setCommentedBy] = useState<null | { [x: string]: any }>(
     null
   );
-  getUser(comment.uid).then((res) => setCommentedBy(res));
+  useEffect(() => {
+    const unsub = getUser(comment.uid).then((res) => setCommentedBy(res));
+    return () => unsub;
+  }, []);
+
   return (
     <p key={nanoid()}>
       <span className="font-medium text-rose-700">

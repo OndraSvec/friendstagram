@@ -74,7 +74,8 @@ const PostComponent: React.FC<PostComponentProps> = ({
     await addComment(postID, currentUserID, newComment);
     setNewComment("");
     setCommentToAdd(false);
-    getComments(postID).then((res) => setAllComments(res));
+    const commentsRes = await getComments(postID);
+    setAllComments(commentsRes);
   };
 
   const switchCommentsExpanded = () =>
@@ -129,6 +130,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
                 className="border-1 w-full rounded-sm border border-black pl-1  text-black outline-black"
                 type="text"
                 id="commentInput"
+                autoComplete="off"
                 onChange={handleCommentChange}
                 value={newComment}
               />

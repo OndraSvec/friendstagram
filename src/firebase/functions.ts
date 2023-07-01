@@ -6,7 +6,6 @@ import {
   getDocs,
   query,
   orderBy,
-  Timestamp,
   where,
   doc,
   getDoc,
@@ -71,15 +70,10 @@ export const addFileToFirestore = async (
 export const getFirestoreFeed = async (collectionName: string) => {
   const q = query(collection(db, collectionName), orderBy("createdAt", "desc"));
   const querySnapshot = await getDocs(q);
-  const documents: {
-    createdAt: Timestamp;
-    url: string;
-    id: string;
-    uid: string;
-    description: string;
-    comments: { comment: string; uid: string }[] | [];
-    likes: string[] | [];
-  }[] = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  const documents = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
   return documents;
 };
 
@@ -179,6 +173,19 @@ export const getLikedFeed = async (uid: string) => {
   const q = query(
     collection(db, "posts"),
     where("likes", "array-contains", uid)
+  );
+  const querySnapshot = await getDocs(q);
+  const documents = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+  return documents;
+};
+
+export const getSearchFeed = async (tag: string) => {
+  const q = query(
+    collection(db, "posts"),
+    where("tags", "array-contains", `${tag}\uf8ff`)
   );
   const querySnapshot = await getDocs(q);
   const documents = querySnapshot.docs.map((doc) => ({
