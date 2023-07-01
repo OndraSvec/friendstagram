@@ -70,9 +70,14 @@ const Search = () => {
   }, [searchField]);
 
   return (
-    <Wrapper className="lg:px-36">
-      <form onSubmit={handleFormSubmit}>
+    <Wrapper className="w-full lg:px-36">
+      <form
+        className="w-full px-3 py-1 text-sm sm:px-4 sm:text-base md:px-5 md:text-lg lg:px-0 lg:text-xl"
+        onSubmit={handleFormSubmit}
+      >
         <input
+          className="border-1 w-full rounded-sm border border-gray-300 p-1  text-gray-400 outline-gray-300 sm:p-2 md:border-2 md:p-3"
+          id="searchInput"
           type="text"
           autoComplete="off"
           placeholder="Search posts by tag.."
