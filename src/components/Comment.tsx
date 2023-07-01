@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { getUser } from "../firebase/functions";
+import { Link } from "react-router-dom";
 
 interface CommentProps {
   comment: {
@@ -20,9 +21,12 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
 
   return (
     <p key={nanoid()}>
-      <span className="font-medium text-rose-700">
+      <Link
+        to={`/feed/search/${comment.uid}`}
+        className="font-medium text-rose-700"
+      >
         {commentedBy?.name ? commentedBy?.name : commentedBy?.email}
-      </span>{" "}
+      </Link>{" "}
       {comment.comment}
     </p>
   );
