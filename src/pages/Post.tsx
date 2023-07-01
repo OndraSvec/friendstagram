@@ -66,7 +66,17 @@ const Post = () => {
 
   useEffect(() => {
     if (url) {
-      addFileToFirestore("posts", url, user.uid, formData.textarea, [], []);
+      const tags = formData.textarea.toLowerCase().split(" ");
+      const uniqueTags = [...new Set(tags)];
+      addFileToFirestore(
+        "posts",
+        url,
+        user.uid,
+        formData.textarea,
+        [],
+        [],
+        uniqueTags
+      );
       setUrl(null);
       setLoading(false);
       navigate("/feed");

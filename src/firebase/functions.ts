@@ -53,7 +53,8 @@ export const addFileToFirestore = async (
   uid: string,
   description: string,
   comments: { comment: string; uid: string }[] | [],
-  likes: string[] | []
+  likes: string[] | [],
+  tags: string[] | null
 ) => {
   const createdAt = serverTimestamp();
   addDoc(collection(db, collectionName), {
@@ -63,6 +64,7 @@ export const addFileToFirestore = async (
     description,
     comments,
     likes,
+    tags,
   });
 };
 
