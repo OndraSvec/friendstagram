@@ -72,7 +72,7 @@ const Search = () => {
   return (
     <Wrapper className="w-full lg:px-36">
       <form
-        className="w-full px-3 py-1 text-sm sm:px-4 sm:text-base md:px-5 md:text-lg lg:px-0 lg:text-xl"
+        className="w-full px-3 pb-2 pt-1 text-sm sm:px-4 sm:text-base md:px-5 md:text-lg lg:px-0 lg:text-xl"
         onSubmit={handleFormSubmit}
       >
         <input
