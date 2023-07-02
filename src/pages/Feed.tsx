@@ -44,7 +44,7 @@ const Feed = () => {
     </PostComponent>
   ));
   return (
-    <Wrapper className="gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:px-36">
+    <Wrapper className="w-full gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:px-36">
       <UserCarousel />
       {feedElements}
     </Wrapper>

@@ -12,7 +12,7 @@ interface UserCarouselItemProps {
 
 const UserCarouselItem: React.FC<UserCarouselItemProps> = ({ user }) => (
   <Link to={`/feed/search/${user.uid}`}>
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-1 whitespace-nowrap">
       {user.photo ? (
         <img
           src={user.photo}
