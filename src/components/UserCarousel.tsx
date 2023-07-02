@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import UserCarouselItem from "./UserCarouselItem";
+import { getUsers } from "../firebase/functions";
 
 const UserCarousel: React.FC = () => {
   const [users, setUsers] = useState<
@@ -16,7 +17,7 @@ const UserCarousel: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const unsub = "hello";
+    const unsub = getUsers().then((res) => setUsers(res));
 
     return () => unsub;
   }, []);
@@ -36,7 +37,7 @@ const UserCarousel: React.FC = () => {
       <motion.div
         drag="x"
         dragConstraints={{ right: 0, left: -width }}
-        className="flex gap-2 px-1 py-4"
+        className="flex items-center gap-2 px-1 py-4"
       >
         {users.map((user) => (
           <motion.div key={user.uid}>

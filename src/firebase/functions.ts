@@ -87,8 +87,7 @@ export const addUserToFirestore = async (user: User) => {
 };
 
 export const getUsers = async () => {
-  const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
-  const querySnapshot = await getDocs(q);
+  const querySnapshot = await getDocs(collection(db, "users"));
   const documents = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
   }));

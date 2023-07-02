@@ -5,6 +5,7 @@ import Wrapper from "../components/Wrapper";
 import PostComponent from "../components/PostComponent";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
+import UserCarousel from "../components/UserCarousel";
 
 export async function loader() {
   return getFirestoreFeed("posts");
@@ -42,7 +43,12 @@ const Feed = () => {
       </div>
     </PostComponent>
   ));
-  return <Wrapper className="lg:px-36">{feedElements}</Wrapper>;
+  return (
+    <Wrapper className="gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:px-36">
+      <UserCarousel />
+      {feedElements}
+    </Wrapper>
+  );
 };
 
 export default Feed;

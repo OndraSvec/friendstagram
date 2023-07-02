@@ -16,13 +16,21 @@ const UserCarouselItem: React.FC<UserCarouselItemProps> = ({ user }) => (
       {user.photo ? (
         <img
           src={user.photo}
-          className="md:w-18 w-12 rounded-full sm:w-14 lg:w-24"
+          className="w-9 rounded-full sm:w-12 md:w-[75px] lg:w-[90px]"
         />
       ) : (
-        <FaUserCircle className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl" />
+        <FaUserCircle className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl" />
       )}
 
-      {user.name ? <p>{user.name}</p> : <p>{user.email}</p>}
+      {user.name ? (
+        <p className="text-xs sm:text-sm md:text-base lg:text-lg">
+          {user.name}
+        </p>
+      ) : (
+        <p className="text-xs sm:text-sm md:text-base lg:text-lg">
+          {user.email}
+        </p>
+      )}
     </div>
   </Link>
 );
