@@ -77,6 +77,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
     setCommentToAdd(false);
     const commentsRes = await getComments(postID);
     setAllComments(commentsRes);
+    setCommentsExpanded(true);
   };
 
   const switchCommentsExpanded = () =>
