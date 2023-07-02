@@ -1,8 +1,13 @@
+import { useLoaderData } from "react-router-dom";
+import { getChatByID } from "../firebase/functions";
+
 export function loader({ params }) {
-  return getChat(params.chatID);
+  return getChatByID(params.chatID);
 }
 
 const ChatDetail = () => {
+  const chat = useLoaderData();
+  console.log(chat);
   return <h1>hello</h1>;
 };
 

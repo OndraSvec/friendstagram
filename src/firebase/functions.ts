@@ -202,3 +202,45 @@ export const getSearchFeed = async (tag: string) => {
   }));
   return documents;
 };
+
+export const createChat = async (senderID: string, receiverID: string) => {
+  addDoc(collection(db, "chats"), {
+    senderID,
+    receiverID,
+    messages: [],
+  });
+};
+
+export const getChat = async (senderID: string, receiverID: string) => {
+  const q = query(
+    collection(db, "chats"),
+    where("senderID", "==", senderID),
+    where("receiverID", "==", receiverID)
+  );
+  const querySnapshot = await getDocs(q);
+  const documents = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+  return documents[0];
+};
+
+export const getChatByID = async (chatID: string) => {
+  const docRef = doc(db, "chats", chatID);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) return docSnap.data();
+};
+
+export const getAllUserChats = async (uid: string) => {
+  const q = query(
+    collection(db, "chats"),
+    where("users", "array-contains", uid)
+  );
+  const querySnapshot = await getDocs(q);
+  const documents = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+  return documents;
+};

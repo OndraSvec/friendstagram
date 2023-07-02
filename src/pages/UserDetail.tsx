@@ -1,8 +1,13 @@
-import { getProfileFeed, getUser } from "../firebase/functions";
+import {
+  createChat,
+  getChat,
+  getProfileFeed,
+  getUser,
+} from "../firebase/functions";
 import ImageGrid from "../components/ImageGrid";
 import { Timestamp } from "firebase/firestore";
 import Wrapper from "../components/Wrapper";
-import { Link, useLoaderData, useParams } from "react-router-dom";
+import { Link, useLoaderData, useParams, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../AppContext";
 import Button from "../components/Button";
@@ -29,7 +34,9 @@ const UserDetail = () => {
     photo: string | null;
     uid: string;
   } | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const { user } = useContext(AppContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser(userID).then((res) => setDisplayedUser(res));
@@ -43,6 +50,14 @@ const UserDetail = () => {
     (acc, current) => acc + current.likes.length,
     0
   );
+
+  const handleOutgoingMessage = async () => {
+    setLoading(true);
+    if (!(await getChat(user.uid, userID))) await createChat(user.uid, userID);
+    const { id } = await getChat(user.uid, userID);
+    setLoading(false);
+    navigate(`/feed/chat/${id}`);
+  };
 
   const userInfo = (
     <div className="mb-2 flex w-full flex-col gap-2 px-1 py-2 text-xs sm:gap-3 sm:text-sm md:gap-4 md:text-base lg:w-3/4 lg:gap-6 lg:text-lg">
@@ -72,6 +87,8 @@ const UserDetail = () => {
         <Button
           text="Send message"
           className="w-5/6 self-center rounded-md bg-sky-400 p-1 text-xs font-medium text-white disabled:bg-gray-300 sm:w-2/3 sm:p-2 sm:text-sm md:p-3 md:text-base lg:w-1/2 lg:text-lg"
+          onClick={handleOutgoingMessage}
+          disabled={loading}
         />
       )}
     </div>
