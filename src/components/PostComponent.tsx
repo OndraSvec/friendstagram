@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  ReactNode,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import Button from "./Button";
 import { BsHeart, BsHeartFill, BsSendCheck } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
@@ -44,6 +51,8 @@ const PostComponent: React.FC<PostComponentProps> = ({
   const [commentsExpanded, setCommentsExpanded] = useState<boolean>(false);
   const [allComments, setAllComments] =
     useState<{ uid: string; comment: string }[]>(comments);
+  const [loading, setLoading] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const unsub = getUser(uid).then((res) => setPostedBy(res));
@@ -65,16 +74,21 @@ const PostComponent: React.FC<PostComponentProps> = ({
     setLikeNum(likes);
   };
 
-  const handleComment = () => setCommentToAdd((prevState) => !prevState);
+  const handleComment = async () => {
+    await setCommentToAdd((prevState) => !prevState);
+    if (!commentToAdd) inputRef.current?.focus();
+  };
 
   const handleCommentChange = (e: ChangeEvent<HTMLInputElement>) =>
     setNewComment(e.target.value);
 
   const handleAddComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     await addComment(postID, currentUserID, newComment);
     setNewComment("");
     setCommentToAdd(false);
+    setLoading(false);
     const commentsRes = await getComments(postID);
     setAllComments(commentsRes);
     setCommentsExpanded(true);
@@ -115,7 +129,11 @@ const PostComponent: React.FC<PostComponentProps> = ({
               liked ? <BsHeartFill className="text-rose-600" /> : <BsHeart />
             }
           />
-          <Button icon={<RiChatNewLine />} onClick={handleComment} />
+          <Button
+            icon={<RiChatNewLine />}
+            onClick={handleComment}
+            disabled={loading}
+          />
         </div>
         <div>{`${likeNum} like${likeNum === 1 ? "" : "s"}`}</div>
         <p>
@@ -137,6 +155,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
                 type="text"
                 id="commentInput"
                 autoComplete="off"
+                ref={inputRef}
                 onChange={handleCommentChange}
                 value={newComment}
               />
