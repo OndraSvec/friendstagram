@@ -35,10 +35,19 @@ const UserDetail = () => {
     getUser(userID).then((res) => setDisplayedUser(res));
   }, []);
 
+  const totalComments = posts.reduce(
+    (acc, current) => acc + current.comments.length,
+    0
+  );
+  const totalLikes = posts.reduce(
+    (acc, current) => acc + current.likes.length,
+    0
+  );
+
   const userInfo = (
-    <div className="mb-2 flex w-full flex-col gap-2 px-1 py-2 sm:gap-3 md:gap-4 lg:w-3/4 lg:gap-6">
-      <div className="flex w-2/3 items-end justify-between self-center sm:w-1/2">
-        <div className="flex flex-col items-center">
+    <div className="mb-2 flex w-full flex-col gap-2 px-1 py-2 text-xs sm:gap-3 sm:text-sm md:gap-4 md:text-base lg:w-3/4 lg:gap-6 lg:text-lg">
+      <div className="flex w-5/6 items-end justify-between self-center sm:w-2/3 lg:w-1/2">
+        <div>
           {displayedUser?.photo ? (
             <img
               src={displayedUser?.photo}
@@ -48,23 +57,21 @@ const UserDetail = () => {
             <FaUserCircle className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl" />
           )}
           {displayedUser?.name ? (
-            <p className="text-xs sm:text-sm md:text-base lg:text-lg">
-              {displayedUser?.name}
-            </p>
+            <p>{displayedUser?.name}</p>
           ) : (
-            <p className="text-xs sm:text-sm md:text-base lg:text-lg">
-              {displayedUser?.email}
-            </p>
+            <p>{displayedUser?.email}</p>
           )}
         </div>
-        <p className="text-xs sm:text-sm md:text-base lg:text-lg">
-          Posts: {posts.length}
-        </p>
+        <div className="text-right">
+          <p>Posts: {posts.length}</p>
+          <p>Likes: {totalLikes}</p>
+          <p>Comments: {totalComments}</p>
+        </div>
       </div>
       {user.uid !== userID && (
         <Button
           text="Send message"
-          className="w-2/3 self-center rounded-md bg-sky-400 p-1 text-xs font-medium text-white disabled:bg-gray-300 sm:w-1/2 sm:p-2 sm:text-sm md:p-3 md:text-base lg:text-lg"
+          className="w-5/6 self-center rounded-md bg-sky-400 p-1 text-xs font-medium text-white disabled:bg-gray-300 sm:w-2/3 sm:p-2 sm:text-sm md:p-3 md:text-base lg:w-1/2 lg:text-lg"
         />
       )}
     </div>
