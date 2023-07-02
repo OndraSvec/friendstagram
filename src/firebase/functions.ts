@@ -244,3 +244,19 @@ export const getAllUserChats = async (uid: string) => {
   }));
   return documents;
 };
+
+export const addChatMessage = async (
+  chatID: string,
+  senderID: string,
+  receiverID: string,
+  message: string
+) => {
+  const docRef = doc(db, "chats", chatID);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    await updateDoc(docRef, {
+      messages: [...docSnap.data().messages, { senderID, receiverID, message }],
+    });
+  }
+};
