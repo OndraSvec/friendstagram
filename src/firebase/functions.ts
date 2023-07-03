@@ -256,6 +256,7 @@ export const addChatMessage = async (
 
   if (docSnap.exists()) {
     await updateDoc(docRef, {
+      updatedAt: serverTimestamp(),
       messages: [
         ...docSnap.data().messages,
         {

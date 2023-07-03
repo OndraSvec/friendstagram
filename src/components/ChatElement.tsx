@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { User } from "firebase/auth";
+import { Timestamp } from "firebase/firestore";
 
 interface ChatElementProps {
   chat: {
     id: string;
     senderID: string;
     receiverID: string;
+    updatedAt: Timestamp;
     messages: {
       senderID: string;
       message: string;
@@ -37,7 +39,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
     <>
       {chatUser && (
         <Link to={`${chat.id}`} className="w-full">
-          <div className="flex w-full justify-between gap-1 whitespace-nowrap p-2 text-xs sm:text-sm md:text-base lg:text-lg">
+          <div className="flex w-full items-center justify-between gap-1 whitespace-nowrap p-2 text-xs sm:text-sm md:text-base lg:text-lg">
             {chatUser.photo ? (
               <img
                 src={chatUser.photo}
@@ -53,7 +55,10 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
                 <p className="font-medium">{chatUser.email}</p>
               )}
               {chat.messages.length > 0 ? (
-                <p>{chat.messages.at(-1)?.message}</p>
+                <>
+                  <p>{chat.messages.at(-1)?.message}</p>
+                  <p>{chat.updatedAt?.toDate().toUTCString()}</p>
+                </>
               ) : (
                 <p className="text-gray-500">No messages yet</p>
               )}
