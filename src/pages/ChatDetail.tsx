@@ -22,6 +22,7 @@ const ChatDetail = () => {
   const chat = useLoaderData();
   const [inputMessage, setInputMessage] = useState<string>("");
   const inputRef = useRef<null | HTMLInputElement>(null);
+  const scrollRef = useRef<null | HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [chatMessages, setChatMessages] = useState<
     { message: string; senderID: string }[] | []
@@ -55,11 +56,13 @@ const ChatDetail = () => {
     setLoading(false);
     const response = await getChatByID(chat.id);
     setChatMessages(response.messages);
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <Wrapper className="w-full p-2">
       <div className="flex w-full flex-grow flex-col">{messages}</div>
+      <div ref={scrollRef}></div>
       <form className="flex w-full items-center gap-1" onSubmit={handleSubmit}>
         <input
           ref={inputRef}
