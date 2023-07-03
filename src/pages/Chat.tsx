@@ -11,9 +11,13 @@ const Chat = () => {
         id: string;
         senderID: string;
         receiverID: string;
-        message: {
-          createdAt: Timestamp;
-          value: string;
+        messages: {
+          senderID: string;
+          receiverID: string;
+          message: {
+            createdAt: Timestamp;
+            value: string;
+          };
         };
       }[]
     | []

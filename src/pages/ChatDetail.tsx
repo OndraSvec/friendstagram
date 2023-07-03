@@ -7,7 +7,6 @@ export function loader({ params }) {
 
 const ChatDetail = () => {
   const chat = useLoaderData();
-  console.log(chat);
   return <h1>hello</h1>;
 };
 

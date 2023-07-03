@@ -10,10 +10,14 @@ interface ChatElementProps {
     id: string;
     senderID: string;
     receiverID: string;
-    message: {
-      createdAt: Timestamp;
-      value: string;
-    };
+    messages: {
+      senderID: string;
+      receiverID: string;
+      message: {
+        createdAt: Timestamp;
+        value: string;
+      };
+    }[];
   };
   user: User;
 }
@@ -47,8 +51,20 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
             ) : (
               <FaUserCircle className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl" />
             )}
-            <div className="flex flex-grow justify-center">
-              {chatUser.name ? <p>{chatUser.name}</p> : <p>{chatUser.email}</p>}
+            <div className="flex flex-grow flex-col items-center">
+              {chatUser.name ? (
+                <p className="font-medium">{chatUser.name}</p>
+              ) : (
+                <p className="font-medium">{chatUser.email}</p>
+              )}
+              {chat.messages.length > 0 ? (
+                <p>
+                  {chat.messages.at(-1)?.message.value}{" "}
+                  {chat.messages.at(-1)?.message.createdAt.toDate().toString()}
+                </p>
+              ) : (
+                <p className="text-gray-500">No messages yet</p>
+              )}
             </div>
           </div>
         </Link>
