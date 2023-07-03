@@ -60,7 +60,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
               )}
               {chat.messages.length > 0 ? (
                 <>
-                  <div className="flex w-11/12 items-center justify-center gap-1">
+                  <div className="flex w-11/12 items-center justify-center gap-1 text-gray-500">
                     {chat.messages.at(-1)?.senderID === userID ? (
                       <IoArrowUndoSharp />
                     ) : (
@@ -70,7 +70,9 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
                       {chat.messages.at(-1)?.message}
                     </p>
                   </div>
-                  <p>{chat.updatedAt?.toDate().toUTCString()}</p>
+                  <p className="text-gray-500">
+                    {chat.updatedAt?.toDate().toUTCString()}
+                  </p>
                 </>
               ) : (
                 <p className="text-gray-500">No messages yet</p>
