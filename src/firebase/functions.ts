@@ -208,6 +208,7 @@ export const createChat = async (senderID: string, receiverID: string) => {
   addDoc(collection(db, "chats"), {
     senderID,
     receiverID,
+    updatedAt: serverTimestamp(),
     messages: [],
   });
 };
@@ -236,7 +237,8 @@ export const getChatByID = async (chatID: string) => {
 export const getAllUserChats = async (uid: string) => {
   const q = query(
     collection(db, "chats"),
-    or(where("receiverID", "==", uid), where("senderID", "==", uid))
+    or(where("receiverID", "==", uid), where("senderID", "==", uid)),
+    orderBy("updatedAt", "desc")
   );
   const querySnapshot = await getDocs(q);
   const documents = querySnapshot.docs.map((doc) => ({

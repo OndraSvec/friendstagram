@@ -60,7 +60,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
               )}
               {chat.messages.length > 0 ? (
                 <>
-                  <div className="flex w-11/12 items-center gap-1">
+                  <div className="flex w-11/12 items-center justify-center gap-1">
                     {chat.messages.at(-1)?.senderID === userID ? (
                       <IoArrowUndoSharp />
                     ) : (
