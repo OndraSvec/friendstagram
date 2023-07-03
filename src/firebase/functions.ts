@@ -230,7 +230,7 @@ export const getChatByID = async (chatID: string) => {
   const docRef = doc(db, "chats", chatID);
   const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) return docSnap.data();
+  if (docSnap.exists()) return { ...docSnap.data(), id: chatID };
 };
 
 export const getAllUserChats = async (uid: string) => {
