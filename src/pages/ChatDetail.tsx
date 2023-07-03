@@ -62,7 +62,7 @@ const ChatDetail = () => {
   };
 
   return (
-    <Wrapper className="w-full p-2 text-sm sm:text-base md:text-lg lg:text-xl">
+    <Wrapper className="w-full p-2 text-sm sm:text-base md:text-lg lg:px-80 lg:text-xl">
       <div className="flex w-full flex-grow flex-col gap-4">{messages}</div>
       <form
         className="mt-8 flex w-full items-center gap-1"
