@@ -58,16 +58,16 @@ const ChatDetail = () => {
     setLoading(false);
     const response = await getChatByID(chat.id);
     setChatMessages(response.messages);
-    scrollRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <Wrapper className="w-full gap-2 p-2 text-sm sm:text-base md:text-lg lg:text-xl">
+    <Wrapper className="w-full p-2 text-sm sm:text-base md:text-lg lg:text-xl">
       <div className="flex w-full flex-grow flex-col gap-4">{messages}</div>
-      <form className="flex w-full items-center gap-1" onSubmit={handleSubmit}>
+      <form
+        className="mt-8 flex w-full items-center gap-1"
+        onSubmit={handleSubmit}
+      >
         <input
           ref={inputRef}
           className="border-1 w-full rounded-sm border border-gray-300 p-1 text-gray-400 outline-gray-300  sm:p-2 md:border-2 md:p-3"
