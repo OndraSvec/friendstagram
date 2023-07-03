@@ -249,7 +249,6 @@ export const getAllUserChats = async (uid: string) => {
 export const addChatMessage = async (
   chatID: string,
   senderID: string,
-  receiverID: string,
   value: string
 ) => {
   const docRef = doc(db, "chats", chatID);
@@ -261,7 +260,6 @@ export const addChatMessage = async (
         ...docSnap.data().messages,
         {
           senderID,
-          receiverID,
           message: { createdAt: serverTimestamp(), value },
         },
       ],

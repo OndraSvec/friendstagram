@@ -12,7 +12,6 @@ interface ChatElementProps {
     receiverID: string;
     messages: {
       senderID: string;
-      receiverID: string;
       message: {
         createdAt: Timestamp;
         value: string;
