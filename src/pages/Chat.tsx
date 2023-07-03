@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { getAllUserChats } from "../firebase/functions";
 import { AppContext } from "../AppContext";
-import { Timestamp } from "firebase/firestore";
 import ChatElement from "../components/ChatElement";
 import Wrapper from "../components/Wrapper";
 
@@ -13,10 +12,7 @@ const Chat = () => {
         receiverID: string;
         messages: {
           senderID: string;
-          message: {
-            createdAt: Timestamp;
-            value: string;
-          };
+          message: string;
         };
       }[]
     | []

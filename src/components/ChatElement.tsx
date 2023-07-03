@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase/firestore";
 import { getUser } from "../firebase/functions";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,10 +11,7 @@ interface ChatElementProps {
     receiverID: string;
     messages: {
       senderID: string;
-      message: {
-        createdAt: Timestamp;
-        value: string;
-      };
+      message: string;
     }[];
   };
   user: User;
@@ -57,10 +53,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
                 <p className="font-medium">{chatUser.email}</p>
               )}
               {chat.messages.length > 0 ? (
-                <p>
-                  {chat.messages.at(-1)?.message.value}{" "}
-                  {chat.messages.at(-1)?.message.createdAt.toDate().toString()}
-                </p>
+                <p>{chat.messages.at(-1)?.message}</p>
               ) : (
                 <p className="text-gray-500">No messages yet</p>
               )}
