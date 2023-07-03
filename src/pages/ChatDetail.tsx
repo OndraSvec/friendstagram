@@ -33,8 +33,10 @@ const ChatDetail = () => {
   const messages = chatMessages.map((item) => (
     <div
       className={`${
-        item.senderID === user.uid ? "self-end" : "self-start"
-      } w-fit border border-solid border-red-200`}
+        item.senderID === user.uid
+          ? "self-end rounded-ee-none bg-gradient-to-b from-sky-500 to-sky-300"
+          : "self-start rounded-es-none bg-gradient-to-b from-black to-gray-600"
+      } w-fit max-w-[60%] rounded-md p-3 text-sm font-medium text-white shadow-md sm:text-base md:text-lg lg:text-xl`}
       key={nanoid()}
     >
       {item.message}
@@ -56,13 +58,15 @@ const ChatDetail = () => {
     setLoading(false);
     const response = await getChatByID(chat.id);
     setChatMessages(response.messages);
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   };
 
   return (
-    <Wrapper className="w-full p-2">
-      <div className="flex w-full flex-grow flex-col">{messages}</div>
-      <div ref={scrollRef}></div>
+    <Wrapper className="w-full gap-2 p-2 text-sm sm:text-base md:text-lg lg:text-xl">
+      <div className="flex w-full flex-grow flex-col gap-4">{messages}</div>
       <form className="flex w-full items-center gap-1" onSubmit={handleSubmit}>
         <input
           ref={inputRef}
@@ -72,11 +76,12 @@ const ChatDetail = () => {
           value={inputMessage}
         />
         <Button
-          className="text-2xl text-gray-400"
+          className="text-2xl text-gray-400 sm:text-3xl md:text-4xl lg:text-5xl"
           icon={<AiOutlineSend />}
           disabled={loading}
         />
       </form>
+      <div ref={scrollRef}></div>
     </Wrapper>
   );
 };

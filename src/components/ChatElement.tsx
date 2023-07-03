@@ -52,31 +52,33 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
             ) : (
               <FaUserCircle className="flex-shrink-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl" />
             )}
-            <div className="flex flex-grow flex-col items-center">
-              {chatUser.name ? (
-                <p className="font-medium">{chatUser.name}</p>
-              ) : (
-                <p className="font-medium">{chatUser.email}</p>
-              )}
-              {chat.messages.length > 0 ? (
-                <>
-                  <div className="flex w-11/12 items-center justify-center gap-1 text-gray-500">
-                    {chat.messages.at(-1)?.senderID === userID ? (
-                      <IoArrowUndoSharp />
-                    ) : (
-                      <IoArrowRedoSharp />
-                    )}
-                    <p className="overflow-hidden text-ellipsis">
-                      {chat.messages.at(-1)?.message}
+            <div className="flex w-full flex-grow flex-col">
+              <div className="flex w-5/6 flex-col items-center overflow-hidden sm:w-full">
+                {chatUser.name ? (
+                  <p className="font-medium">{chatUser.name}</p>
+                ) : (
+                  <p className="font-medium">{chatUser.email}</p>
+                )}
+                {chat.messages.length > 0 ? (
+                  <>
+                    <div className="flex w-full items-center justify-center gap-1 text-gray-500">
+                      {chat.messages.at(-1)?.senderID === userID ? (
+                        <IoArrowUndoSharp className="flex-shrink-0" />
+                      ) : (
+                        <IoArrowRedoSharp className="flex-shrink-0" />
+                      )}
+                      <p className="overflow-hidden text-ellipsis">
+                        {chat.messages.at(-1)?.message}
+                      </p>
+                    </div>
+                    <p className="text-gray-500">
+                      {chat.updatedAt?.toDate().toUTCString()}
                     </p>
-                  </div>
-                  <p className="text-gray-500">
-                    {chat.updatedAt?.toDate().toUTCString()}
-                  </p>
-                </>
-              ) : (
-                <p className="text-gray-500">No messages yet</p>
-              )}
+                  </>
+                ) : (
+                  <p className="text-gray-500">No messages yet</p>
+                )}
+              </div>
             </div>
           </div>
         </Link>

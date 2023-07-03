@@ -31,8 +31,10 @@ const Chat = () => {
   ));
 
   return (
-    <Wrapper className="w-full p-2">
-      <div className="flex w-full flex-col gap-1">{chatElements}</div>
+    <Wrapper className="w-full p-2 lg:px-96">
+      <div className="flex w-full flex-col gap-1 sm:gap-2 md:gap-4 lg:gap-8">
+        {chatElements}
+      </div>
     </Wrapper>
   );
 };
