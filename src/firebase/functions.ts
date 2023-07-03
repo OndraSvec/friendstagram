@@ -249,14 +249,21 @@ export const addChatMessage = async (
   chatID: string,
   senderID: string,
   receiverID: string,
-  message: string
+  value: string
 ) => {
   const docRef = doc(db, "chats", chatID);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
     await updateDoc(docRef, {
-      messages: [...docSnap.data().messages, { senderID, receiverID, message }],
+      messages: [
+        ...docSnap.data().messages,
+        {
+          senderID,
+          receiverID,
+          message: { createdAt: serverTimestamp(), value },
+        },
+      ],
     });
   }
 };
