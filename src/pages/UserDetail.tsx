@@ -7,7 +7,14 @@ import {
 import ImageGrid from "../components/ImageGrid";
 import { Timestamp } from "firebase/firestore";
 import Wrapper from "../components/Wrapper";
-import { Link, useLoaderData, useParams, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLoaderData,
+  useParams,
+  useNavigate,
+  redirect,
+  Navigate,
+} from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../AppContext";
 import Button from "../components/Button";
@@ -53,10 +60,11 @@ const UserDetail = () => {
 
   const handleOutgoingMessage = async () => {
     setLoading(true);
-    if (!(await getChat(user.uid, userID))) await createChat(user.uid, userID);
-    const { id } = await getChat(user.uid, userID);
+    if (!(await getChat(user.uid, displayedUser.uid))) {
+      await createChat(user.uid, displayedUser.uid);
+    }
     setLoading(false);
-    navigate(`/feed/chat/${id}`);
+    navigate("/feed/chat/");
   };
 
   const userInfo = (
@@ -83,9 +91,9 @@ const UserDetail = () => {
           <p>Comments: {totalComments}</p>
         </div>
       </div>
-      {user.uid !== userID && (
+      {user.uid !== displayedUser?.uid && (
         <Button
-          text="Send message"
+          text="Start chatting"
           className="w-5/6 self-center rounded-md bg-sky-400 p-1 text-xs font-medium text-white disabled:bg-gray-300 sm:w-2/3 sm:p-2 sm:text-sm md:p-3 md:text-base lg:w-1/2 lg:text-lg"
           onClick={handleOutgoingMessage}
           disabled={loading}
