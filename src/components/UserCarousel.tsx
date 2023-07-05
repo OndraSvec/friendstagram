@@ -17,16 +17,23 @@ const UserCarousel: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const unsub = getUsers().then((res) => setUsers(res));
+    const unsub = getUsers().then((res) =>
+      setUsers(
+        res.sort((a, b) =>
+          a.email <= b.email ? -1 : a.email == b.email ? 0 : 1
+        )
+      )
+    );
 
     return () => unsub;
   }, []);
 
   useEffect(() => {
-    setWidth(
+    const unsub = setWidth(
       carouselRef.current?.scrollWidth - carouselRef.current?.offsetWidth
     );
-  }, []);
+    return () => unsub;
+  });
 
   return (
     <motion.div
