@@ -11,6 +11,7 @@ import {
   getDoc,
   updateDoc,
   or,
+  and,
 } from "firebase/firestore";
 import { storage, db } from "./setup";
 import { User } from "firebase/auth";
@@ -216,8 +217,16 @@ export const createChat = async (senderID: string, receiverID: string) => {
 export const getChat = async (senderID: string, receiverID: string) => {
   const q = query(
     collection(db, "chats"),
-    where("senderID", "==", senderID),
-    where("receiverID", "==", receiverID)
+    or(
+      and(
+        where("senderID", "==", senderID),
+        where("receiverID", "==", receiverID)
+      ),
+      and(
+        where("receiverID", "==", senderID),
+        where("senderID", "==", receiverID)
+      )
+    )
   );
   const querySnapshot = await getDocs(q);
   const documents = querySnapshot.docs.map((doc) => ({
