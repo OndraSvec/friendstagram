@@ -63,8 +63,9 @@ const UserDetail = () => {
     if (!(await getChat(user.uid, displayedUser.uid))) {
       await createChat(user.uid, displayedUser.uid);
     }
+    const { id } = await getChat(user.uid, displayedUser.uid);
     setLoading(false);
-    navigate("/feed/chat/");
+    navigate(`/feed/chat/${id}`);
   };
 
   const userInfo = (

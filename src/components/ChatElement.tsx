@@ -1,22 +1,17 @@
-import { getUser } from "../firebase/functions";
+import { getChatMessages, getUser } from "../firebase/functions";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { User } from "firebase/auth";
-import { Timestamp } from "firebase/firestore";
 import { IoArrowRedoSharp } from "react-icons/io5";
 import { IoArrowUndoSharp } from "react-icons/io5";
+import { Timestamp } from "firebase/firestore";
 
 interface ChatElementProps {
   chat: {
     id: string;
     senderID: string;
     receiverID: string;
-    updatedAt: Timestamp;
-    messages: {
-      senderID: string;
-      message: string;
-    }[];
   };
   user: User;
 }
@@ -29,6 +24,16 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
     uid: string;
   } | null>(null);
 
+  const [chatMessages, setChatMessages] = useState<
+    | {
+        createdAt: Timestamp;
+        senderID: string;
+        receiverID: string;
+        message: string;
+      }[]
+    | []
+  >([]);
+
   const chatUsers = [chat.receiverID, chat.senderID];
 
   const userID = chatUsers.filter((item) => item !== user.uid)[0];
@@ -39,6 +44,11 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
     return () => unsub;
   }, []);
 
+  useEffect(() => {
+    const unsub = getChatMessages(chat.id).then((res) => setChatMessages(res));
+
+    return () => unsub;
+  }, []);
   return (
     <>
       {chatUser && (
@@ -59,20 +69,20 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
                 ) : (
                   <p className="font-medium">{chatUser.email}</p>
                 )}
-                {chat.messages.length > 0 ? (
+                {chatMessages.length > 0 ? (
                   <>
                     <div className="flex w-full items-center justify-center gap-1 text-gray-500">
-                      {chat.messages.at(-1)?.senderID === userID ? (
+                      {chatMessages.at(-1)?.senderID === userID ? (
                         <IoArrowUndoSharp className="flex-shrink-0" />
                       ) : (
                         <IoArrowRedoSharp className="flex-shrink-0" />
                       )}
                       <p className="overflow-hidden text-ellipsis">
-                        {chat.messages.at(-1)?.message}
+                        {chatMessages.at(-1)?.message}
                       </p>
                     </div>
                     <p className="text-gray-500">
-                      {chat.updatedAt?.toDate().toUTCString()}
+                      {chatMessages.at(-1)?.createdAt.toDate().toUTCString()}
                     </p>
                   </>
                 ) : (

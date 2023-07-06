@@ -1,5 +1,9 @@
 import { useLoaderData } from "react-router-dom";
-import { addChatMessage, getChatByID } from "../firebase/functions";
+import {
+  addChatMessage,
+  getChatByID,
+  getChatMessages,
+} from "../firebase/functions";
 import Wrapper from "../components/Wrapper";
 import {
   ChangeEvent,
@@ -9,10 +13,11 @@ import {
   useRef,
   useState,
 } from "react";
-import { AppContext } from "../AppContext";
 import Button from "../components/Button";
 import { AiOutlineSend } from "react-icons/ai";
 import { nanoid } from "nanoid";
+import { Timestamp } from "firebase/firestore";
+import { AppContext } from "../AppContext";
 
 export function loader({ params }) {
   return getChatByID(params.chatID);
@@ -20,15 +25,26 @@ export function loader({ params }) {
 
 const ChatDetail = () => {
   const chat = useLoaderData();
+  const { user } = useContext(AppContext);
   const [inputMessage, setInputMessage] = useState<string>("");
   const inputRef = useRef<null | HTMLInputElement>(null);
   const scrollRef = useRef<null | HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [chatMessages, setChatMessages] = useState<
-    { message: string; senderID: string }[] | []
-  >(chat.messages);
+    | {
+        createdAt: Timestamp;
+        senderID: string;
+        receiverID: string;
+        message: string;
+      }[]
+    | []
+  >([]);
 
-  const { user } = useContext(AppContext);
+  useEffect(() => {
+    const unsub = getChatMessages(chat.id).then((res) => setChatMessages(res));
+
+    return () => unsub;
+  }, []);
 
   const messages = chatMessages.map((item) => (
     <div
@@ -53,11 +69,11 @@ const ChatDetail = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setLoading(true);
     e.preventDefault();
-    await addChatMessage(chat.id, user.uid, inputMessage);
+    await addChatMessage(chat.id, user.uid, chat.receiverID, inputMessage);
     setInputMessage("");
     setLoading(false);
-    const response = await getChatByID(chat.id);
-    setChatMessages(response.messages);
+    const response = await getChatMessages(chat.id);
+    setChatMessages(response);
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 

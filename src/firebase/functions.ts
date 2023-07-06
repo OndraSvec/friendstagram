@@ -210,7 +210,6 @@ export const createChat = async (senderID: string, receiverID: string) => {
     senderID,
     receiverID,
     updatedAt: serverTimestamp(),
-    messages: [],
   });
 };
 
@@ -260,21 +259,32 @@ export const getAllUserChats = async (uid: string) => {
 export const addChatMessage = async (
   chatID: string,
   senderID: string,
+  receiverID: string,
   message: string
 ) => {
   const docRef = doc(db, "chats", chatID);
-  const docSnap = await getDoc(docRef);
+  const colRef = collection(docRef, "messages");
 
-  if (docSnap.exists()) {
-    await updateDoc(docRef, {
-      updatedAt: serverTimestamp(),
-      messages: [
-        ...docSnap.data().messages,
-        {
-          senderID,
-          message,
-        },
-      ],
-    });
-  }
+  await addDoc(colRef, {
+    createdAt: serverTimestamp(),
+    senderID,
+    receiverID,
+    message,
+  });
+  await updateDoc(docRef, {
+    updatedAt: serverTimestamp(),
+  });
+};
+
+export const getChatMessages = async (chatID: string) => {
+  const q = query(
+    collection(db, "chats", chatID, "messages"),
+    orderBy("createdAt", "asc")
+  );
+  const querySnapshot = await getDocs(q);
+  const documents = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+  return documents;
 };

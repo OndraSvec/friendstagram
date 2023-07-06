@@ -3,7 +3,6 @@ import { getAllUserChats } from "../firebase/functions";
 import { AppContext } from "../AppContext";
 import ChatElement from "../components/ChatElement";
 import Wrapper from "../components/Wrapper";
-import { Timestamp } from "firebase/firestore";
 
 const Chat = () => {
   const [chats, setChats] = useState<
@@ -11,14 +10,10 @@ const Chat = () => {
         id: string;
         senderID: string;
         receiverID: string;
-        updatedAt: Timestamp;
-        messages: {
-          senderID: string;
-          message: string;
-        };
       }[]
     | []
   >([]);
+
   const { user } = useContext(AppContext);
   useEffect(() => {
     const unsub = getAllUserChats(user.uid).then((res) => setChats(res));
