@@ -44,7 +44,7 @@ const UserCarousel: React.FC = () => {
       <motion.div
         drag="x"
         dragConstraints={{ right: 0, left: -width }}
-        className="flex items-center gap-2 px-1 py-4"
+        className="flex items-center gap-2 px-1 py-4 sm:gap-3 md:gap-4 lg:gap-6"
       >
         {users.map((user) => (
           <motion.div key={user.uid}>
