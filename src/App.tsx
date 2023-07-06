@@ -27,6 +27,7 @@ import UserPostDetail, {
   loader as userPostLoader,
 } from "./pages/UserPostDetail";
 import ChatDetail, { loader as chatDetailLoader } from "./pages/ChatDetail";
+import ErrorElement from "./components/ErrorElement";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
       />
       <Route
         path="feed"
+        errorElement={<ErrorElement />}
         element={
           <PrivateRoute>
             <Layout />
