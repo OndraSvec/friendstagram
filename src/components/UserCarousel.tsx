@@ -11,26 +11,29 @@ const UserCarousel: React.FC = () => {
         photo: string | null;
         uid: string;
       }[]
+    | { [x: string]: any }[]
     | []
   >([]);
-  const [width, setWidth] = useState<number>();
+  const [width, setWidth] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const unsub = getUsers().then((res) =>
+    const handleUsers = async () => {
+      const response = await getUsers();
       setUsers(
-        res.sort((a, b) =>
+        response.sort((a, b) =>
           a.email <= b.email ? -1 : a.email == b.email ? 0 : 1
         )
-      )
-    );
-
-    return () => unsub;
+      );
+    };
+    handleUsers();
   }, []);
 
   useEffect(() => {
     const unsub = setWidth(
-      carouselRef.current?.scrollWidth - carouselRef.current?.offsetWidth
+      carouselRef.current
+        ? carouselRef.current.scrollWidth - carouselRef.current.offsetWidth
+        : null
     );
     return () => unsub;
   });
@@ -43,7 +46,7 @@ const UserCarousel: React.FC = () => {
     >
       <motion.div
         drag="x"
-        dragConstraints={{ right: 0, left: -width }}
+        dragConstraints={{ right: 0, left: width ? -width : 0 }}
         className="flex items-center gap-2 px-1 py-4 sm:gap-3 md:gap-4 lg:gap-6"
       >
         {users.map((user) => (

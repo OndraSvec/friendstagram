@@ -29,7 +29,7 @@ interface PostComponentProps {
   description: string;
   uid: string;
   postID: string;
-  currentUserID: string;
+  currentUserID: string | undefined;
   className?: string;
 }
 
@@ -55,15 +55,22 @@ const PostComponent: React.FC<PostComponentProps> = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    const unsub = getUser(uid).then((res) => setPostedBy(res));
+    const handleUser = async () => {
+      const response = await getUser(uid);
+      setPostedBy(response);
+    };
 
-    return () => unsub;
+    handleUser();
   }, [uid]);
 
   useEffect(() => {
-    const unsub = isLiked(postID, currentUserID).then((res) => setLiked(!res));
-
-    return () => unsub;
+    if (currentUserID) {
+      const handleLike = async () => {
+        const response = await isLiked(postID, currentUserID);
+        setLiked(!response);
+      };
+      handleLike();
+    }
   }, [currentUserID, postID]);
 
   const handleLike = async (uid: string, postID: string) => {
@@ -85,7 +92,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
   const handleAddComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await addComment(postID, currentUserID, newComment);
+    if (currentUserID) await addComment(postID, currentUserID, newComment);
     setNewComment("");
     setCommentToAdd(false);
     setLoading(false);
@@ -124,7 +131,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
       <div className="flex flex-col gap-1 p-2">
         <div className="flex items-center gap-2 text-base sm:text-2xl md:text-3xl lg:text-4xl">
           <Button
-            onClick={() => handleLike(currentUserID, postID)}
+            onClick={() => currentUserID && handleLike(currentUserID, postID)}
             icon={
               liked ? <BsHeartFill className="text-rose-600" /> : <BsHeart />
             }

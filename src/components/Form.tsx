@@ -24,12 +24,7 @@ interface FormProps {
 interface FormData {
   email: string;
   password: string;
-}
-
-interface FormDataExpanded {
-  email: string;
-  password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -38,7 +33,7 @@ const Form: React.FC<FormProps> = ({
   submitFunc,
   signUpForm,
 }) => {
-  const [formData, setFormData] = useState<FormData | FormDataExpanded>(state);
+  const [formData, setFormData] = useState<FormData>(state);
   const [formValid, setFormValid] = useState<boolean>(false);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);

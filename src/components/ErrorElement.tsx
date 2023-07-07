@@ -3,7 +3,8 @@ import Wrapper from "./Wrapper";
 import Button from "./Button";
 
 const ErrorElement = () => {
-  const error = useRouteError();
+  const error: any = useRouteError();
+  console.log(error);
   const navigate = useNavigate();
   return (
     <Wrapper className="justify-center gap-2 text-sm font-medium text-rose-700 sm:text-base md:gap-4 md:text-lg lg:gap-6 lg:text-xl">

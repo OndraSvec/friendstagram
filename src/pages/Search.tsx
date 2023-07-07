@@ -26,6 +26,7 @@ const Search = () => {
         tags: string[];
       }[]
     | []
+    | { [x: string]: any }[]
   >([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { user } = useContext(AppContext);
@@ -36,7 +37,7 @@ const Search = () => {
       likes={item.likes}
       description={item.description}
       uid={item.uid}
-      currentUserID={user.uid}
+      currentUserID={user?.uid}
       postID={item.id}
       key={item.id}
     >

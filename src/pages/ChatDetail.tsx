@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, LoaderFunction } from "react-router-dom";
 import {
   addChatMessage,
   getChatByID,
@@ -19,12 +19,17 @@ import { nanoid } from "nanoid";
 import { Timestamp } from "firebase/firestore";
 import { AppContext } from "../AppContext";
 
-export function loader({ params }) {
-  return getChatByID(params.chatID);
-}
+export const loader = (async ({ params }) => {
+  if (params.chatID) return getChatByID(params.chatID);
+}) satisfies LoaderFunction;
 
 const ChatDetail = () => {
-  const chat = useLoaderData();
+  const chat = useLoaderData() as {
+    id: string;
+    receiverID: string;
+    senderID: string;
+    updatedAt: { nanoseconds: number; seconds: number };
+  };
   const { user } = useContext(AppContext);
   const [inputMessage, setInputMessage] = useState<string>("");
   const inputRef = useRef<null | HTMLInputElement>(null);
@@ -38,18 +43,23 @@ const ChatDetail = () => {
         message: string;
       }[]
     | []
+    | { [x: string]: any }[]
   >([]);
 
   useEffect(() => {
-    const unsub = getChatMessages(chat.id).then((res) => setChatMessages(res));
-
-    return () => unsub;
+    const handleChatMessages = async () => {
+      if (chat) {
+        const response = await getChatMessages(chat.id);
+        setChatMessages(response);
+      }
+    };
+    handleChatMessages();
   }, []);
 
   const messages = chatMessages.map((item) => (
     <div
       className={`${
-        item.senderID === user.uid
+        item.senderID === user?.uid
           ? "self-end rounded-ee-none bg-gradient-to-b from-sky-500 to-sky-300"
           : "self-start rounded-es-none bg-gradient-to-b from-black to-gray-600"
       } w-fit max-w-[60%] rounded-md p-3 text-sm font-medium text-white shadow-md sm:text-base md:text-lg lg:text-xl`}
@@ -69,7 +79,8 @@ const ChatDetail = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setLoading(true);
     e.preventDefault();
-    await addChatMessage(chat.id, user.uid, chat.receiverID, inputMessage);
+    if (user)
+      await addChatMessage(chat.id, user.uid, chat.receiverID, inputMessage);
     setInputMessage("");
     setLoading(false);
     const response = await getChatMessages(chat.id);

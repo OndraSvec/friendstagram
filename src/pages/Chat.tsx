@@ -12,13 +12,19 @@ const Chat = () => {
         receiverID: string;
       }[]
     | []
+    | { id: string }[]
   >([]);
 
   const { user } = useContext(AppContext);
   useEffect(() => {
-    const unsub = getAllUserChats(user.uid).then((res) => setChats(res));
+    const handleUsers = async () => {
+      if (user) {
+        const response = await getAllUserChats(user.uid);
+        setChats(response);
+      }
+    };
 
-    return () => unsub;
+    handleUsers();
   }, []);
 
   const chatElements = chats.map((chat) => (

@@ -32,7 +32,7 @@ const Post = () => {
   const navigate = useNavigate();
 
   const handleFileChange: handleFileChange = (e) => {
-    const selectedFile: SelectedFile = e.target.files[0];
+    const selectedFile: SelectedFile = e.target.files && e.target.files[0];
 
     if (selectedFile && types.includes(selectedFile.type)) {
       setFormData((prevState) => ({
@@ -65,7 +65,7 @@ const Post = () => {
   };
 
   useEffect(() => {
-    if (url) {
+    if (url && user) {
       const tags = formData.textarea
         .toLowerCase()
         .replace(/[^\w ]/g, "")
@@ -84,7 +84,7 @@ const Post = () => {
       setLoading(false);
       navigate("/feed");
     }
-  }, [formData.textarea, url, user.uid, navigate]);
+  }, [formData.textarea, url, user, navigate]);
 
   return (
     <Wrapper className="w-4/5 gap-2 py-3 lg:w-3/5">

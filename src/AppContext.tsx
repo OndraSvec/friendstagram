@@ -10,20 +10,18 @@ import {
 } from "firebase/auth";
 import { addUserToFirestore, getUser } from "./firebase/functions";
 
-type AppContextProps =
-  | "Default Value"
-  | {
-      user: User | null | undefined;
-      error: null | string;
-      loading: boolean;
-      signInWithGoogle: () => void;
-      signInWithFacebook: () => void;
-      signUpWithPassword: (email: string, password: string) => void;
-      signInWithPassword: (email: string, password: string) => void;
-      signOut: () => void;
-    };
+type AppContextProps = {
+  user: User | null | undefined;
+  error: null | string;
+  loading: boolean;
+  signInWithGoogle: () => void;
+  signInWithFacebook: () => void;
+  signUpWithPassword: (email: string, password: string) => void;
+  signInWithPassword: (email: string, password: string) => void;
+  signOut: () => void;
+};
 
-const AppContext = createContext<AppContextProps>("Default Value");
+const AppContext = createContext<AppContextProps>({} as AppContextProps);
 
 interface AppContextProvProps {
   children: ReactNode;

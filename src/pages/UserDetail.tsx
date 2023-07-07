@@ -12,20 +12,19 @@ import {
   useLoaderData,
   useParams,
   useNavigate,
-  redirect,
-  Navigate,
+  LoaderFunction,
 } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../AppContext";
 import Button from "../components/Button";
 import { FaUserCircle } from "react-icons/fa";
 
-export function loader({ params }) {
-  return getProfileFeed(params.userID);
-}
+export const loader = (async ({ params }) => {
+  if (params.userID) return getProfileFeed(params.userID);
+}) satisfies LoaderFunction;
 
 const UserDetail = () => {
-  const posts: {
+  const posts = useLoaderData() as {
     comments: { comment: string; uid: string }[];
     createdAt: Timestamp;
     description: string;
@@ -33,20 +32,30 @@ const UserDetail = () => {
     uid: string;
     url: string;
     id: string;
-  }[] = useLoaderData();
+  }[];
   const { userID } = useParams();
-  const [displayedUser, setDisplayedUser] = useState<{
-    email: string;
-    name: string | null;
-    photo: string | null;
-    uid: string;
-  } | null>(null);
+  const [displayedUser, setDisplayedUser] = useState<
+    | {
+        email: string;
+        name: string | null;
+        photo: string | null;
+        uid: string;
+      }
+    | null
+    | { [x: string]: any }
+  >(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { user } = useContext(AppContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getUser(userID).then((res) => setDisplayedUser(res));
+    if (userID) {
+      const handleUser = async () => {
+        const response = await getUser(userID);
+        setDisplayedUser(response);
+      };
+      handleUser();
+    }
   }, []);
 
   const totalComments = posts.reduce(
@@ -59,13 +68,15 @@ const UserDetail = () => {
   );
 
   const handleOutgoingMessage = async () => {
-    setLoading(true);
-    if (!(await getChat(user.uid, displayedUser.uid))) {
-      await createChat(user.uid, displayedUser.uid);
+    if (user && displayedUser) {
+      setLoading(true);
+      if (!(await getChat(user.uid, displayedUser.uid))) {
+        await createChat(user.uid, displayedUser.uid);
+      }
+      const { id } = await getChat(user.uid, displayedUser.uid);
+      setLoading(false);
+      navigate(`/feed/chat/${id}`);
     }
-    const { id } = await getChat(user.uid, displayedUser.uid);
-    setLoading(false);
-    navigate(`/feed/chat/${id}`);
   };
 
   const userInfo = (
@@ -92,7 +103,7 @@ const UserDetail = () => {
           <p>Comments: {totalComments}</p>
         </div>
       </div>
-      {user.uid !== displayedUser?.uid && (
+      {user?.uid !== displayedUser?.uid && (
         <Button
           text="Start chatting"
           className="w-5/6 self-center rounded-md bg-sky-400 p-1 text-xs font-medium text-white disabled:bg-gray-300 sm:w-2/3 sm:p-2 sm:text-sm md:p-3 md:text-base lg:w-1/2 lg:text-lg"

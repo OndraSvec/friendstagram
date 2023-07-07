@@ -2,12 +2,14 @@ import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 interface UserCarouselItemProps {
-  user: {
-    email: string;
-    name: string | null;
-    photo: string | null;
-    uid: string;
-  };
+  user:
+    | {
+        email: string;
+        name: string | null;
+        photo: string | null;
+        uid: string;
+      }
+    | { [x: string]: any };
 }
 
 const UserCarouselItem: React.FC<UserCarouselItemProps> = ({ user }) => (

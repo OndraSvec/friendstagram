@@ -10,10 +10,10 @@ import { Timestamp } from "firebase/firestore";
 interface ChatElementProps {
   chat: {
     id: string;
-    senderID: string;
-    receiverID: string;
+    senderID?: string;
+    receiverID?: string;
   };
-  user: User;
+  user: User | null | undefined;
 }
 
 const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
@@ -41,15 +41,17 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
 
   const chatUsers = [chat.receiverID, chat.senderID];
 
-  const userID = chatUsers.filter((item) => item !== user.uid)[0];
+  const userID = chatUsers.filter((item) => item !== user?.uid)[0];
 
   useEffect(() => {
     const handleUser = async () => {
-      const response = await getUser(userID);
-      setChatUser(response);
+      if (userID) {
+        const response = await getUser(userID);
+        setChatUser(response);
+      }
     };
     handleUser();
-  }, []);
+  }, [userID]);
 
   useEffect(() => {
     const handleChatMessages = async () => {

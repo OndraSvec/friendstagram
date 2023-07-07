@@ -18,13 +18,18 @@ const Profile = () => {
         url: string;
         id: string;
       }[]
+    | { [x: string]: any }[]
   >([]);
   const { user } = useContext(AppContext);
 
   useEffect(() => {
-    const unsub = getProfileFeed(user.uid).then((res) => setPosts(res));
-
-    return () => unsub;
+    if (user) {
+      const handleProfile = async () => {
+        const response = await getProfileFeed(user.uid);
+        setPosts(response);
+      };
+      handleProfile();
+    }
   }, []);
 
   const feedElements = posts.map((post) => (

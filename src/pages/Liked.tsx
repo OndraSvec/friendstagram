@@ -18,13 +18,18 @@ const Liked = () => {
         url: string;
         id: string;
       }[]
+    | { [x: string]: any }[]
   >([]);
   const { user } = useContext(AppContext);
 
   useEffect(() => {
-    const unsub = getLikedFeed(user.uid).then((res) => setPosts(res));
-
-    return () => unsub;
+    if (user) {
+      const handleLiked = async () => {
+        const response = await getLikedFeed(user.uid);
+        setPosts(response);
+      };
+      handleLiked();
+    }
   }, []);
 
   const feedElements = posts.map((post) => (
