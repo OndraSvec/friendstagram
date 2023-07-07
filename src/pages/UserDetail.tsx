@@ -126,7 +126,7 @@ const UserDetail = () => {
     </div>
   ));
   return (
-    <Wrapper>
+    <Wrapper className="w-full">
       {userInfo}
       <ImageGrid>{feedElements}</ImageGrid>
     </Wrapper>

@@ -44,7 +44,7 @@ const Profile = () => {
     </div>
   ));
   return (
-    <Wrapper>
+    <Wrapper className="w-full">
       <ImageGrid>{feedElements}</ImageGrid>
     </Wrapper>
   );
