@@ -17,12 +17,16 @@ interface ChatElementProps {
 }
 
 const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
-  const [chatUser, setChatUser] = useState<{
-    email: string;
-    name: string | null;
-    photo: string | null;
-    uid: string;
-  } | null>(null);
+  const [chatUser, setChatUser] = useState<
+    | {
+        email: string;
+        name: string | null;
+        photo: string | null;
+        uid: string;
+      }
+    | null
+    | { [x: string]: any }
+  >(null);
 
   const [chatMessages, setChatMessages] = useState<
     | {
@@ -32,6 +36,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
         message: string;
       }[]
     | []
+    | { [x: string]: any }
   >([]);
 
   const chatUsers = [chat.receiverID, chat.senderID];
@@ -39,16 +44,20 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
   const userID = chatUsers.filter((item) => item !== user.uid)[0];
 
   useEffect(() => {
-    const unsub = getUser(userID).then((res) => setChatUser(res));
-
-    return () => unsub;
-  }, []);
+    const handleUser = async () => {
+      const response = await getUser(userID);
+      setChatUser(response);
+    };
+    handleUser();
+  }, [userID]);
 
   useEffect(() => {
-    const unsub = getChatMessages(chat.id).then((res) => setChatMessages(res));
-
-    return () => unsub;
-  }, []);
+    const handleChatMessages = async () => {
+      const response = await getChatMessages(chat.id);
+      setChatMessages(response);
+    };
+    handleChatMessages();
+  }, [chat.id]);
   return (
     <>
       {chatUser && (
