@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../AppContext";
-import { getLikedFeed, getProfileFeed } from "../firebase/functions";
+import { getLikedFeed } from "../firebase/functions";
 import ImageGrid from "../components/ImageGrid";
 import { Timestamp } from "firebase/firestore";
 import Wrapper from "../components/Wrapper";
