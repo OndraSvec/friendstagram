@@ -49,7 +49,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
       setChatUser(response);
     };
     handleUser();
-  }, [userID]);
+  }, []);
 
   useEffect(() => {
     const handleChatMessages = async () => {
@@ -57,7 +57,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
       setChatMessages(response);
     };
     handleChatMessages();
-  }, [chat.id]);
+  }, []);
   return (
     <>
       {chatUser && (

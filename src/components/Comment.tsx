@@ -15,8 +15,11 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
     null
   );
   useEffect(() => {
-    const unsub = getUser(comment.uid).then((res) => setCommentedBy(res));
-    return () => unsub;
+    const handleUser = async () => {
+      const response = await getUser(comment.uid);
+      setCommentedBy(response);
+    };
+    handleUser();
   }, []);
 
   return (
