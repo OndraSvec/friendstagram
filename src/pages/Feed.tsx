@@ -5,6 +5,7 @@ import PostComponent from "../components/PostComponent";
 import { Suspense, useContext } from "react";
 import { AppContext } from "../AppContext";
 import UserCarousel from "../components/UserCarousel";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export const loader = (async () => {
   return defer({ posts: getFirestoreFeed("posts") });
@@ -33,9 +34,10 @@ const Feed = () => {
       <UserCarousel />
       <Suspense
         fallback={
-          <h2 className="text-center text-sm font-medium sm:text-base md:gap-4 md:text-lg lg:gap-6 lg:text-xl">
-            Loading your feed..
-          </h2>
+          <div className="flex flex-grow flex-col items-center justify-center gap-2 text-sm font-medium sm:text-base md:gap-4 md:text-lg lg:gap-6 lg:text-xl">
+            <AiOutlineLoading3Quarters className="aspect-square animate-spin text-4xl md:text-5xl lg:text-9xl" />
+            <h2>Loading your feed..</h2>
+          </div>
         }
       >
         <Await resolve={posts}>
