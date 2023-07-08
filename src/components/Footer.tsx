@@ -12,7 +12,7 @@ import { RiSearchFill } from "react-icons/ri";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 grid h-10 w-full grid-cols-5 items-center border-t border-solid border-gray-300 bg-white px-3 py-2">
+    <footer className="fixed bottom-0 z-10 grid h-10 w-full grid-cols-5 items-center border-t border-solid border-gray-300 bg-white px-3 py-2">
       <div className="grid place-items-center">
         <NavLink to="." end className="focus:outline-none">
           {({ isActive }) =>
