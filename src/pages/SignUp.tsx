@@ -3,6 +3,7 @@ import Wrapper from "../components/Wrapper";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import Form from "../components/Form";
 import Error from "../components/Error";
+import Notification from "../components/Notification";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
@@ -15,7 +16,7 @@ interface SignUpProps {
 }
 
 const SignUp: React.FC<SignUpProps> = ({ initialState }) => {
-  const { error, signUpWithPassword } = useContext(AppContext);
+  const { error, notification, signUpWithPassword } = useContext(AppContext);
   return (
     <Wrapper>
       <div className="grid w-full  grid-cols-3 items-center border-b border-solid border-gray-300 p-2 sm:p-3 md:border-b-2 md:p-4">
@@ -29,6 +30,7 @@ const SignUp: React.FC<SignUpProps> = ({ initialState }) => {
       </div>
       <Wrapper className="w-full justify-center gap-2 p-10 md:gap-6">
         {error && <Error />}
+        {notification && <Notification />}
         <Form
           state={initialState}
           buttonText="Create Account"

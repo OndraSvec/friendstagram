@@ -13,6 +13,7 @@ import { addUserToFirestore, getUser } from "./firebase/functions";
 type AppContextProps = {
   user: User | null | undefined;
   error: null | string;
+  notification: null | string;
   loading: boolean;
   signInWithGoogle: () => void;
   signUpWithPassword: (email: string, password: string) => void;
@@ -29,6 +30,7 @@ interface AppContextProvProps {
 const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
   const [user, setUser] = useState<null | User>(null);
   const [error, setError] = useState<null | string>(null);
+  const [notification, setNotification] = useState<null | string>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const signInWithGoogle = () => {
@@ -56,8 +58,11 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (result) => {
-        if (result.user) sendEmailVerification(result.user);
-        setError(null);
+        if (result.user) {
+          sendEmailVerification(result.user);
+          setError(null);
+          setNotification("Check your email to verify your account.");
+        }
       })
       .catch((error) => {
         const errorMsg = error.message
@@ -68,7 +73,9 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
           errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
         setError(capitalizedErrMsg);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const signInWithPassword = (email: string, password: string) => {
@@ -88,7 +95,10 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
           errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
         setError(capitalizedErrMsg);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        setNotification(null);
+      });
   };
 
   const signOut = () => {
@@ -102,6 +112,7 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
         user,
         loading,
         error,
+        notification,
         signInWithGoogle,
         signUpWithPassword,
         signInWithPassword,

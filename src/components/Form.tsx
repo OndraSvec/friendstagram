@@ -62,6 +62,7 @@ const Form: React.FC<FormProps> = ({
     const formDataVals = Object.values(formData);
     if (!formValid) return;
     submitFunc(...formDataVals);
+    setFormData(state);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
