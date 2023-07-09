@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendEmailVerification,
 } from "firebase/auth";
 import { addUserToFirestore, getUser } from "./firebase/functions";
 
@@ -78,8 +79,7 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (result) => {
-        setUser(result.user);
-        if (!(await getUser(result.user.uid))) addUserToFirestore(result.user);
+        if (result.user) sendEmailVerification(result.user);
         setError(null);
       })
       .catch((error) => {
