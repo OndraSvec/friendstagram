@@ -97,9 +97,8 @@ const Form: React.FC<FormProps> = ({
       <input
         type="password"
         name="password"
+        minLength={8}
         placeholder="Password"
-        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-        title="At least 8 characters with one or more lowercase, one or more uppercase, one or more numbers and one or more special characters."
         className=" border-1 w-full rounded-sm border border-gray-300 p-1  text-gray-400 outline-gray-300 sm:p-2 md:border-2 md:p-3"
         ref={passwordRef}
         value={formData.password}
@@ -109,9 +108,8 @@ const Form: React.FC<FormProps> = ({
         <input
           type="password"
           name="confirmPassword"
+          minLength={8}
           placeholder="Confirm password"
-          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-          title="At least 8 characters with one or more lowercase, one or more uppercase, one or more numbers and one or more special characters."
           ref={confirmPassRef}
           className="border-1 w-full rounded-sm border border-gray-300 p-1 text-gray-400 outline-gray-300  sm:p-2 md:border-2 md:p-3"
           value={formData.confirmPassword}
