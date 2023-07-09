@@ -86,6 +86,7 @@ const Form: React.FC<FormProps> = ({
       className="flex w-4/5 flex-col items-center gap-2 text-sm sm:gap-4 sm:text-lg md:gap-6 md:text-2xl lg:w-3/5"
     >
       <input
+        autoComplete="off"
         type="email"
         name="email"
         placeholder="Email"
@@ -95,6 +96,7 @@ const Form: React.FC<FormProps> = ({
         onChange={handleChange}
       />
       <input
+        autoComplete="off"
         type="password"
         name="password"
         minLength={8}
@@ -106,6 +108,7 @@ const Form: React.FC<FormProps> = ({
       />
       {signUpForm && (
         <input
+          autoComplete="off"
           type="password"
           name="confirmPassword"
           minLength={8}
