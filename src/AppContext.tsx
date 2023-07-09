@@ -2,7 +2,6 @@ import { ReactNode, createContext, useState } from "react";
 import { auth } from "./firebase/setup";
 import {
   GoogleAuthProvider,
-  FacebookAuthProvider,
   User,
   signInWithPopup,
   createUserWithEmailAndPassword,
@@ -16,7 +15,6 @@ type AppContextProps = {
   error: null | string;
   loading: boolean;
   signInWithGoogle: () => void;
-  signInWithFacebook: () => void;
   signUpWithPassword: (email: string, password: string) => void;
   signInWithPassword: (email: string, password: string) => void;
   signOut: () => void;
@@ -37,27 +35,6 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
     const googleProvider = new GoogleAuthProvider();
     setLoading(true);
     signInWithPopup(auth, googleProvider)
-      .then(async (result) => {
-        setUser(result.user);
-        if (!(await getUser(result.user.uid))) addUserToFirestore(result.user);
-        setError(null);
-      })
-      .catch((error) => {
-        const errorMsg = error.message
-          .split("auth/")[1]
-          .split(")")[0]
-          .replace(/-/g, " ");
-        const capitalizedErrMsg =
-          errorMsg.slice(0, 1).toUpperCase() + errorMsg.slice(1);
-        setError(capitalizedErrMsg);
-      })
-      .finally(() => setLoading(false));
-  };
-
-  const signInWithFacebook = () => {
-    const facebookProvider = new FacebookAuthProvider();
-    setLoading(true);
-    signInWithPopup(auth, facebookProvider)
       .then(async (result) => {
         setUser(result.user);
         if (!(await getUser(result.user.uid))) addUserToFirestore(result.user);
@@ -126,7 +103,6 @@ const AppContextProvider: React.FC<AppContextProvProps> = ({ children }) => {
         loading,
         error,
         signInWithGoogle,
-        signInWithFacebook,
         signUpWithPassword,
         signInWithPassword,
         signOut,
