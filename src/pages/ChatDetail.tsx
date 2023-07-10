@@ -16,8 +16,15 @@ import {
 import Button from "../components/Button";
 import { AiOutlineSend } from "react-icons/ai";
 import { nanoid } from "nanoid";
-import { Timestamp } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { AppContext } from "../AppContext";
+import { db } from "../firebase/setup";
 
 export const loader = (async ({ params }) => {
   if (params.chatID) return getChatByID(params.chatID);
@@ -56,6 +63,19 @@ const ChatDetail = () => {
     handleChatMessages();
   }, []);
 
+  useEffect(() => {
+    const q = query(
+      collection(db, "chats", chat.id, "messages"),
+      orderBy("createdAt", "asc")
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const documents = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+      setChatMessages(documents);
+    });
+
+    return (): void => unsubscribe();
+  }, []);
+
   const messages = chatMessages.map((item) => (
     <div
       className={`${
@@ -83,8 +103,6 @@ const ChatDetail = () => {
       await addChatMessage(chat.id, user.uid, chat.receiverID, inputMessage);
     setInputMessage("");
     setLoading(false);
-    const response = await getChatMessages(chat.id);
-    setChatMessages(response);
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
