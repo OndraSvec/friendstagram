@@ -5,7 +5,6 @@ import {
   getUser,
 } from "../firebase/functions";
 import ImageGrid from "../components/ImageGrid";
-import { Timestamp } from "firebase/firestore";
 import Wrapper from "../components/Wrapper";
 import {
   Link,
@@ -18,32 +17,16 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../AppContext";
 import Button from "../components/Button";
 import { FaUserCircle } from "react-icons/fa";
+import { ChatUser, Post } from "../firebase/types";
 
 export const loader = (async ({ params }) => {
   if (params.userID) return getProfileFeed(params.userID);
 }) satisfies LoaderFunction;
 
 const UserDetail = () => {
-  const posts = useLoaderData() as {
-    comments: { comment: string; uid: string }[];
-    createdAt: Timestamp;
-    description: string;
-    likes: string[];
-    uid: string;
-    url: string;
-    id: string;
-  }[];
+  const posts = useLoaderData() as Post[];
   const { userID } = useParams();
-  const [displayedUser, setDisplayedUser] = useState<
-    | {
-        email: string;
-        name: string | null;
-        photo: string | null;
-        uid: string;
-      }
-    | null
-    | { [x: string]: any }
-  >(null);
+  const [displayedUser, setDisplayedUser] = useState<ChatUser>();
   const [loading, setLoading] = useState<boolean>(false);
   const { user } = useContext(AppContext);
   const navigate = useNavigate();
@@ -86,6 +69,7 @@ const UserDetail = () => {
           {displayedUser?.photo ? (
             <img
               src={displayedUser?.photo}
+              referrerPolicy="no-referrer"
               className="w-9 rounded-full sm:w-12 md:w-[75px] lg:w-[90px]"
             />
           ) : (

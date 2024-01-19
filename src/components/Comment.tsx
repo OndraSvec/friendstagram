@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { getUser } from "../firebase/functions";
 import { Link } from "react-router-dom";
+import { ChatUser } from "../firebase/types";
 
 interface CommentProps {
   comment: {
@@ -11,9 +12,8 @@ interface CommentProps {
 }
 
 const Comment: React.FC<CommentProps> = ({ comment }) => {
-  const [commentedBy, setCommentedBy] = useState<null | { [x: string]: any }>(
-    null
-  );
+  const [commentedBy, setCommentedBy] = useState<ChatUser>();
+  
   useEffect(() => {
     const handleUser = async () => {
       const response = await getUser(comment.uid);

@@ -1,15 +1,9 @@
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { ChatUser } from "../firebase/types";
 
 interface UserCarouselItemProps {
-  user:
-    | {
-        email: string;
-        name: string | null;
-        photo: string | null;
-        uid: string;
-      }
-    | { [x: string]: any };
+  user: ChatUser
 }
 
 const UserCarouselItem: React.FC<UserCarouselItemProps> = ({ user }) => (
@@ -18,6 +12,7 @@ const UserCarouselItem: React.FC<UserCarouselItemProps> = ({ user }) => (
       {user.photo ? (
         <img
           src={user.photo}
+          referrerPolicy="no-referrer"
           className="w-9 rounded-full sm:w-12 md:w-[75px] lg:w-[90px]"
         />
       ) : (

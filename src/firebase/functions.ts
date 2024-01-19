@@ -12,9 +12,11 @@ import {
   updateDoc,
   or,
   and,
+  DocumentData,
 } from "firebase/firestore";
 import { storage, db } from "./setup";
 import { User } from "firebase/auth";
+import { ChatMessage, ChatUser, Post } from "./types";
 
 const addFileToStorage = async (
   file: File,
@@ -90,17 +92,17 @@ export const addUserToFirestore = async (user: User) => {
 
 export const getUsers = async () => {
   const querySnapshot = await getDocs(collection(db, "users"));
-  const documents = querySnapshot.docs.map((doc) => ({
+  const documents: DocumentData = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
   }));
-  return documents;
+  return documents as ChatUser[];
 };
 
 export const getUser = async (uid: string) => {
   const q = query(collection(db, "users"), where("uid", "==", uid));
   const querySnapshot = await getDocs(q);
-  const documents = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
-  return documents[0];
+  const documents: DocumentData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+  return documents[0] as ChatUser;
 };
 
 export const switchLikedPost = async (postID: string, uid: string) => {
@@ -165,11 +167,11 @@ export const getComments = async (postID: string) => {
 export const getProfileFeed = async (uid: string) => {
   const q = query(collection(db, "posts"), where("uid", "==", uid));
   const querySnapshot = await getDocs(q);
-  const documents = querySnapshot.docs.map((doc) => ({
+  const documents: DocumentData = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  return documents;
+  return documents as Post[];
 };
 
 export const getDocument = async (postID: string) => {
@@ -185,11 +187,11 @@ export const getLikedFeed = async (uid: string) => {
     where("likes", "array-contains", uid)
   );
   const querySnapshot = await getDocs(q);
-  const documents = querySnapshot.docs.map((doc) => ({
+  const documents: DocumentData = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  return documents;
+  return documents as Post[];
 };
 
 export const getSearchFeed = async (tag: string) => {
@@ -198,11 +200,11 @@ export const getSearchFeed = async (tag: string) => {
     where("tags", "array-contains", tag)
   );
   const querySnapshot = await getDocs(q);
-  const documents = querySnapshot.docs.map((doc) => ({
+  const documents: DocumentData = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  return documents;
+  return documents as Post[];
 };
 
 export const createChat = async (senderID: string, receiverID: string) => {
@@ -262,6 +264,8 @@ export const addChatMessage = async (
   receiverID: string,
   message: string
 ) => {
+  if (!message) return;
+
   const docRef = doc(db, "chats", chatID);
   const colRef = collection(docRef, "messages");
 
@@ -282,9 +286,9 @@ export const getChatMessages = async (chatID: string) => {
     orderBy("createdAt", "asc")
   );
   const querySnapshot = await getDocs(q);
-  const documents = querySnapshot.docs.map((doc) => ({
+  const documents: DocumentData = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  return documents;
+  return documents as ChatMessage[];
 };

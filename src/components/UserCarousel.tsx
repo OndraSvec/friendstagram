@@ -2,18 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import UserCarouselItem from "./UserCarouselItem";
 import { getUsers } from "../firebase/functions";
+import { ChatUser } from "../firebase/types";
 
 const UserCarousel: React.FC = () => {
-  const [users, setUsers] = useState<
-    | {
-        email: string;
-        name: string | null;
-        photo: string | null;
-        uid: string;
-      }[]
-    | { [x: string]: any }[]
-    | []
-  >([]);
+  const [users, setUsers] = useState<ChatUser[]>([]);
   const [width, setWidth] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 

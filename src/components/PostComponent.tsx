@@ -21,6 +21,7 @@ import {
 import Comment from "./Comment";
 import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
+import { ChatUser } from "../firebase/types";
 
 interface PostComponentProps {
   children: ReactNode;
@@ -43,7 +44,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
   className,
   children,
 }) => {
-  const [postedBy, setPostedBy] = useState<null | { [x: string]: any }>(null);
+  const [postedBy, setPostedBy] = useState<ChatUser>();
   const [liked, setLiked] = useState<boolean>(false);
   const [likeNum, setLikeNum] = useState<number>(likes.length);
   const [commentToAdd, setCommentToAdd] = useState<boolean>(false);
@@ -116,6 +117,7 @@ const PostComponent: React.FC<PostComponentProps> = ({
         {postedBy?.photo ? (
           <img
             src={postedBy.photo}
+            referrerPolicy="no-referrer"
             className="w-6 rounded-full sm:w-7 md:w-9 lg:w-12"
           />
         ) : (

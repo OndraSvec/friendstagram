@@ -8,26 +8,13 @@ import {
 } from "react";
 import Wrapper from "../components/Wrapper";
 import PostComponent from "../components/PostComponent";
-import { Timestamp } from "firebase/firestore";
 import { AppContext } from "../AppContext";
 import { getSearchFeed } from "../firebase/functions";
+import { Post } from "../firebase/types";
 
 const Search = () => {
   const [searchField, setSearchField] = useState<string>("");
-  const [posts, setPosts] = useState<
-    | {
-        createdAt: Timestamp;
-        description: string;
-        id: string;
-        url: string;
-        uid: string;
-        likes: string[] | [];
-        comments: { comment: string; uid: string }[] | [];
-        tags: string[];
-      }[]
-    | []
-    | { [x: string]: any }[]
-  >([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { user } = useContext(AppContext);
 

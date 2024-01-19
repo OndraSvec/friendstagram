@@ -5,7 +5,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { User } from "firebase/auth";
 import { IoArrowRedoSharp } from "react-icons/io5";
 import { IoArrowUndoSharp } from "react-icons/io5";
-import { Timestamp } from "firebase/firestore";
+import { ChatMessage, ChatUser } from "../firebase/types";
 
 interface ChatElementProps {
   chat: {
@@ -17,27 +17,9 @@ interface ChatElementProps {
 }
 
 const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
-  const [chatUser, setChatUser] = useState<
-    | {
-        email: string;
-        name: string | null;
-        photo: string | null;
-        uid: string;
-      }
-    | null
-    | { [x: string]: any }
-  >(null);
+  const [chatUser, setChatUser] = useState<ChatUser>();
 
-  const [chatMessages, setChatMessages] = useState<
-    | {
-        createdAt: Timestamp;
-        senderID: string;
-        receiverID: string;
-        message: string;
-      }[]
-    | []
-    | { [x: string]: any }
-  >([]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   const chatUsers = [chat.receiverID, chat.senderID];
 
@@ -68,6 +50,7 @@ const ChatElement: React.FC<ChatElementProps> = ({ chat, user }) => {
             {chatUser.photo ? (
               <img
                 src={chatUser.photo}
+                referrerPolicy="no-referrer"
                 className="w-9 flex-shrink-0 rounded-full sm:w-12 md:w-[75px] lg:w-[90px]"
               />
             ) : (

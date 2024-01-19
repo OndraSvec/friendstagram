@@ -2,24 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../AppContext";
 import { getProfileFeed } from "../firebase/functions";
 import ImageGrid from "../components/ImageGrid";
-import { Timestamp } from "firebase/firestore";
 import Wrapper from "../components/Wrapper";
 import { Link } from "react-router-dom";
+import { Post } from "../firebase/types";
 
 const Profile = () => {
-  const [posts, setPosts] = useState<
-    | []
-    | {
-        comments: { comment: string; uid: string }[];
-        createdAt: Timestamp;
-        description: string;
-        likes: string[];
-        uid: string;
-        url: string;
-        id: string;
-      }[]
-    | { [x: string]: any }[]
-  >([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const { user } = useContext(AppContext);
 
   useEffect(() => {

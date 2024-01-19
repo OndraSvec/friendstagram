@@ -17,7 +17,7 @@ import Button from "../components/Button";
 import { AiOutlineSend } from "react-icons/ai";
 import { nanoid } from "nanoid";
 import {
-  Timestamp,
+  DocumentData,
   collection,
   onSnapshot,
   orderBy,
@@ -25,6 +25,7 @@ import {
 } from "firebase/firestore";
 import { AppContext } from "../AppContext";
 import { db } from "../firebase/setup";
+import { ChatMessage } from "../firebase/types";
 
 export const loader = (async ({ params }) => {
   if (params.chatID) return getChatByID(params.chatID);
@@ -42,16 +43,7 @@ const ChatDetail = () => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const scrollRef = useRef<null | HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [chatMessages, setChatMessages] = useState<
-    | {
-        createdAt: Timestamp;
-        senderID: string;
-        receiverID: string;
-        message: string;
-      }[]
-    | []
-    | { [x: string]: any }[]
-  >([]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     const handleChatMessages = async () => {
@@ -69,8 +61,8 @@ const ChatDetail = () => {
       orderBy("createdAt", "asc")
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const documents = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
-      setChatMessages(documents);
+      const documents: DocumentData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+      setChatMessages(documents as ChatMessage[]);
     });
 
     return (): void => unsubscribe();
